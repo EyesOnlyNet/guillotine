@@ -1,0 +1,25 @@
+@import url(http://fonts.googleapis.com/css?family=Squada+One);
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    color: #000000;
+    font-family: 'Tahoma';
+    font-size: 16px;
+    font-weight: normal;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-decoration: none;
+}
+
+body {
+    margin: auto;
+}
+
+body > * {
+    margin: auto;
+    width: 960px;
+}

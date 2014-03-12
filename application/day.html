@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Guillotine - Das Spiel, bei dem K&ouml;pfe rollen</title>
+        <link rel="shortcut icon" href="images/icons/c.ico" />
+        <link rel="stylesheet" type="text/css" href="styles/main.css" />
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <script type='text/javascript' src='js/libraries/jquery/jquery-1.7.min.js'></script>
+        <script type='text/javascript' src='js/libraries/knockout/knockout-2.0.0.js'></script>
+
+        <script type='text/javascript' src='js/toolkit/Storage.js'></script>
+        <script type='text/javascript' src='js/toolkit/EventManager.js'></script>
+
+        <script type='text/javascript' src='js/models/Player.js'></script>
+        <script type='text/javascript' src='js/models/NobleCard.js'></script>
+        <script type='text/javascript' src='js/models/Game.js'></script>
+        <script type='text/javascript' src='js/models/ActionCard.js'></script>
+        <script type='text/javascript' src='js/models/Queue.js'></script>
+
+        <script type='text/javascript' src='js/views/Day.js'></script>
+
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                ko.applyBindings(new Day());
+            });
+        </script>
+    </head>
+
+    <body id="day" data-bind="with: game">
+        <header>
+            <h1>Lasst die Köpfe rollen</h1>
+            <h2 data-bind="text: '.-= Tag ' + day + ' =-.'"></h2>
+        </header>
+
+        <section>
+            <div id="players">
+                <ul data-bind="foreach: playerList">
+                    <li data-bind="style: { borderColor: name == $parent.activePlayer.name ? color : 'slategray' }">
+                        <div class="points" data-bind="text: points + bonusPoints, style: { backgroundColor: name == $parent.activePlayer.name ? color : 'slategray' }"></div>
+                        <div data-bind="text: name, css: { active: name == $parent.activePlayer.name }"></div>
+                    </li>
+                </ul>
+            </div>
+            
+            <br />
+
+            <div id="queue" data-bind="with: queue">
+                <div id="guillotine" title="AB MIT DEM KOPF!" data-bind="click: $root.behead">&nbsp;</div>
+                <ul data-bind="foreach: cards, css: { ltr: direction == Queue.direction.ltr, rtl: direction == Queue.direction.rtl }">
+                    <li>
+                        <div class="noble-color" data-bind="style: { backgroundColor: color }"></div>
+                        <div data-bind="text: title + ' (' + points + ')' "></div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="active-player" data-bind="with: activePlayer">
+                <h2 data-bind="text: name + ' (' + (points + bonusPoints) + ' Punkte)'"></h2>
+
+                <fieldset id="action-cards">
+                    <legend>Handkarten</legend>
+                    <ul data-bind="foreach: actionCards, css: { locked: $data.actionCardPlayed }">
+                        <li data-bind="click: $root.playActionCard">
+                            <h4 data-bind="text: title"></h4>
+                            <div data-bind="text: text"></div>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <fieldset>
+                    <legend>aktive Karten</legend>
+                    <ul data-bind="foreach: activeActionCards">
+                        <li>
+                            <h4 data-bind="text: title"></h4>
+                            <div data-bind="text: text"></div>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <fieldset id="noble-cards">
+                    <legend>Adelskarten</legend>
+                    <ul data-bind="foreach: nobleCards">
+                        <li>
+                            <div class="noble-color" data-bind="style: { backgroundColor: color }"></div>
+                            <h4 data-bind="text: title + ' (' + points + ')'"></h4>
+                        </li>
+                    </ul>
+                </fieldset>
+            </div>
+        </section>
+    </body>
+</html>

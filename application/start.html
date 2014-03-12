@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Guillotine - Das Spiel, bei dem K&ouml;pfe rollen</title>
+        <link rel="shortcut icon" href="images/icons/c.ico" />
+        <link rel="stylesheet" type="text/css" href="styles/start.css" />
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <script type='text/javascript' src='js/libraries/jquery/jquery-1.7.min.js'></script>
+        <script type='text/javascript' src='js/libraries/knockout/knockout-2.0.0.js'></script>
+
+        <script type='text/javascript' src='js/models/Db.js'></script>
+        <script type='text/javascript' src='js/models/Game.js'></script>
+        
+        <script type='text/javascript' src='js/views/Start.js'></script>
+
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                ko.applyBindings(new Start());
+            });
+        </script>
+    </head>
+
+    <body id="start" data-bind="with: game">
+        START
+    </body>
+</html>

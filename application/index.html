@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Guillotine - Das Spiel, bei dem K&ouml;pfe rollen</title>
+        <link rel="shortcut icon" href="images/icons/c.ico" />
+        <link rel="stylesheet" type="text/css" href="styles/index.css" />
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <script type='text/javascript' src='js/libraries/jquery/jquery-1.7.min.js'></script>
+        <script type='text/javascript' src='js/libraries/knockout/knockout-2.1.0.js'></script>
+
+        <script type='text/javascript' src='js/models/Db.js'></script>
+        <script type='text/javascript' src='js/models/Player.js'></script>
+        <script type='text/javascript' src='js/models/Game.js'></script>
+
+        <script type='text/javascript' src='js/views/Index.js'></script>
+
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                ko.applyBindings(new Index());
+            });
+        </script>
+    </head>
+
+    <body id="index">
+        <form data-bind="submit: addPlayer">
+            <section id="top">
+                <input data-bind="value: playerName, valueUpdate: 'afterkeydown'" type="text" placeholder="Name des Scharfrichters" autofocus />
+            </section>
+
+            <section id="bottom">
+                <button data-bind="click: addPlayer, visible: playerName().length > 0">los geht's!</button>
+            </section>
+        </form>                
+    </body>
+</html>
