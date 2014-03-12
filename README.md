@@ -1,4 +1,4 @@
 guillotine
 ==========
 
-a web-version of the game "Guillotine"
+A web-version of the game "Guillotine"
