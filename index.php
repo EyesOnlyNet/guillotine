@@ -19,11 +19,6 @@
     </head>
 
     <body>
-        <h1 class="well">
-            Guillotine
-            <small>Lass die Köpfe rollen</small>
-        </h1>
-
         <div ng-view></div>
     </body>
 </html>

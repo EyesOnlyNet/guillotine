@@ -6,8 +6,12 @@ app.config(function($routeProvider) {
     $routeProvider.when('/', {
         templateUrl: '/views/index.php',
         controller: 'IndexCtrl'
-    }).
-    otherwise({
+    })
+    .when('/day/:pid', {
+        templateUrl: '/views/day.php',
+        controller: 'DayCtrl'
+    })
+    .otherwise({
         redirectTo: '/'
     });
 });
