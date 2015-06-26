@@ -1,7 +1,6 @@
 function Player(name) {
     this.pid = null;
     this.name = name || '';
-    this.color = '';
     this.points = 0;
     this.bonusPoints = 0;
     this.nobleCards = [];

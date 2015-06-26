@@ -5,7 +5,6 @@ Game.queueStartCount = 12;
 
 function Game() {
     this.gid = null;
-    this.started = false;
     this.day = 0;
     this.playerList = [];
     this.queue = null;
@@ -64,7 +63,7 @@ function Game() {
      * mischt die übergebenen Karten und gibt diese zurück
      */
     this.mixCards = function(cards) {
-        length    = cards.length;
+        length = cards.length;
         mixCycles = length * 3;
 
         for (i = 0; i < mixCycles; i++) {
@@ -89,7 +88,7 @@ function Game() {
         }
 
         count -= this.queue.cards.length;
-        cards = this.queue.cards.concat(this.drawNobleCards(count))
+        cards = this.queue.cards.concat(this.drawNobleCards(count));
         this.queue.cards = cards;
     };
 
@@ -127,10 +126,13 @@ function Game() {
      * Verteilen der Karten an die Spieler
      */
     this.preparePlayers = function() {
-        for (round = 0; round < Game.actionCardsLimitPerPlayer; round++) {
+        for (i = 0; i < Game.actionCardsLimitPerPlayer; i++) {
             for (var i in this.playerList) {
-                cards = this.playerList[i].actionCards;
-                this.playerList[i].actionCards = cards.concat(this.drawActionCards(1));
+                if (this.playerList[i].count >= Game.actionCardsLimitPerPlayer) {
+                    continue;
+                }
+
+                cards = this.playerList[i].actionCards.concat(this.drawActionCards(1));
             }
         }
     };
@@ -143,12 +145,12 @@ function Game() {
     };
 
     /**
-     * den ersten Adligen der Reihe kÃ¶pfen
+     * den ersten Adligen der Reihe köpfen
      */
     this.behead = function() {
         card = null;
 
-        // ersten in der Reihe kÃ¶pfen
+        // ersten in der Reihe köpfen
         if (this.queue.direction === Queue.direction.ltr) {
             card = this.queue.cards.pop();
         } else {
@@ -159,7 +161,7 @@ function Game() {
     };
 
     /**
-     * Ã¼bertragen der gekÃ¶pften Karten an den aktiven Spieler
+     * Übertragen der geköpften Karten an den aktiven Spieler
      */
     this.activePlayerDrawBeheadedCards = function() {
         this.activePlayer.nobleCards = this.activePlayer.nobleCards.concat(this.beheadedCards);
@@ -179,11 +181,16 @@ function Game() {
      * erzeugt einen unique identifier
      */
     this.createUid = function() {
-        return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).substr(-4);
+        this.gid = ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).substr(-4);
     };
 
     this.init = function () {
-        this.gid = this.createUid();
+        this.createUid();
+        this.fillActionCardStack();
+        this.fillNobleCardStack();
+        this.mixAllCards();
+        this.fillQueue(12);
+        this.preparePlayers();
     };
 
     this.init();

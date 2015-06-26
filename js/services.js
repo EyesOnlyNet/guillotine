@@ -16,13 +16,13 @@ appSvcs.factory('db', ['$http', function($http) {
             console.log(game);
             $http.post(url, game).success(successFunction);
         },
-        readGame: function(gid, successFunction) {
-            var url = connectionUrl + '&q={"gid": "' + gid + '"}&fo=true';
+        readGame: function(query, successFunction) {
+            var url = connectionUrl + '&q=' + angular.toJson(query || {}) + '&fo=true';
 
             $http.get(url).success(successFunction);;
         },
-        updateGame: function(game, successFunction) {
-            var url = connectionUrl + '&q={"gid": "' + game.gid + '"}';
+        updateGame: function(query, successFunction) {
+            var url = connectionUrl + '&q=' + angular.toJson(query || {});
 
             console.log(game);
             game = $http.put(url, game).success(successFunction);;

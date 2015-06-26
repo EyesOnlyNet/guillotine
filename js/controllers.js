@@ -16,7 +16,17 @@ appCtrls.controller('IndexCtrl', function($scope, $rootScope, $location, db) {
             $location.path('/day/' + me.pid);
         });
     };
-})
-.controller('DayCtrl', function($scope, $rootScope, $routeParams) {
-    console.log($routeParams.pid);
+});
+
+appCtrls.controller('DayCtrl', function($scope, $rootScope, $routeParams, db) {
+    if (!$rootScope.game) {
+        var pid = $routeParams.pid;
+
+        db.readGame({'playerList.pid': pid}, function(game) {
+            $rootScope.game = game;
+            $rootScope.me = game.playerList.filter(function(player) {
+                return player.pid === pid;
+            }).pop();
+        });
+    }
 });

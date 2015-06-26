@@ -1,0 +1,53 @@
+header {
+    height: 80px;
+    margin: 10px;
+}
+
+header > *,
+header .list-inline {
+    height: 100%;
+}
+
+header h1 {
+    margin: 10px 0;
+}
+
+header .panel {
+    margin: 0;
+}
+
+.queue .blue {
+    border-color: skyblue;
+}
+
+.queue .blue .panel-heading {
+    background-color: lightskyblue;
+}
+
+.queue .violet {
+    border-color: violet;
+}
+
+.queue .violet .panel-heading {
+    background-color: lightpink;
+}
+
+.queue .green {
+    border-color: lightgreen;
+}
+
+.queue .green .panel-heading {
+    background-color: greenyellow;
+}
+
+.queue .red {
+    border-color: lightcoral;
+}
+
+.queue .red .panel-heading {
+    background-color: lightsalmon;
+}
+
+.queue .black {
+    border-color: slategray;
+}
