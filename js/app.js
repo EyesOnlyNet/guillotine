@@ -1,6 +1,6 @@
 /* global angular */
 
-var app = angular.module('game', ['ngRoute', 'controllers', 'services']);
+var app = angular.module('gameApp', ['ngRoute', 'controllers', 'services']);
 
 app.config(function($routeProvider) {
     $routeProvider.when('/', {

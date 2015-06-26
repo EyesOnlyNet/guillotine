@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="game">
+<html ng-app="gameApp">
     <head>
         <meta charset="utf-8">
         <title>Lass die Köpfe rollen</title>
