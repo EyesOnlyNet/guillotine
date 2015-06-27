@@ -1,36 +1,39 @@
 /* global angular */
 
-var appCtrls = angular.module('controllers', []);
+(function() {
+    var appCtrls = angular.module('controllers', []);
 
-appCtrls.controller('IndexCtrl', function($scope, $rootScope, $location, dbSvc) {
-    $scope.createGame = function() {
-        var game = new Game(),
-            me = new Player($scope.playerName);
+    appCtrls.controller('IndexCtrl', function($scope, $rootScope, $location, dbSvc) {
+        $scope.createGame = function() {
+            var game = new Game(),
+                me = new Player($scope.playerName);
 
-        game.playerList.push(me);
+            game.playerList.push(me);
 
-        dbSvc.createGame(game, function() {
-            $rootScope.game = game;
-            $rootScope.me = me;
+            dbSvc.createGame(game, function() {
+                $rootScope.game = game;
+                $rootScope.me = me;
 
-            $location.path('/day/' + me.pid);
-        });
-    };
-});
+                $location.path('/day/' + me.pid);
+            });
+        };
+    });
 
-appCtrls.controller('DayCtrl', function($scope, $rootScope, $routeParams, dbSvc, gameSvc) {
-    if (!$rootScope.game) {
-        var pid = $routeParams.pid;
+    appCtrls.controller('DayCtrl', function($scope, $rootScope, $routeParams, dbSvc, gameSvc) {
+        if (!$rootScope.game) {
+            var pid = $routeParams.pid;
 
-        dbSvc.readGame({'playerList.pid': pid}, function(game) {
-            $rootScope.game = game;
-            $rootScope.me = game.playerList.filter(function(player) {
-                return player.pid === pid;
-            }).pop();
-        });
-    }
+            dbSvc.readGame({'playerList.pid': pid}, function(game) {
+                $rootScope.game = game;
+                $rootScope.me = game.playerList.filter(function(player) {
+                    return player.pid === pid;
+                }).pop();
+            });
+        }
 
-    $scope.behead = function() {
-        this.$first && gameSvc.behead();
-    };
-});
+        $scope.behead = function() {
+            this.$first && gameSvc.behead();
+        };
+    });
+})();
+

@@ -16,6 +16,22 @@ header .panel {
     margin: 0;
 }
 
+.queue li {
+    margin-right: -60px;
+}
+
+.queue li .panel {
+    height: 180px;
+    width: 120px;
+}
+
+.queue li .panel-heading {
+    display: table-cell;
+    height: 60px;
+    vertical-align: middle;
+    width: 120px;
+}
+
 .queue .blue {
     border-color: skyblue;
 }
