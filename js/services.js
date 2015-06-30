@@ -75,11 +75,24 @@
         };
     });
 
-    appSvcs.factory('gameSvc', function($rootScope, uuidSvc, playerSvc, meSvc, dbSvc) {
+    appSvcs.factory('gameSvc', function($rootScope, $routeParams, uuidSvc, playerSvc, meSvc, dbSvc) {
         var actionCardsLimitPerPlayer = 5,
             initialQueueLength = 12;
 
         return {
+            init: function() {
+                var gid = $routeParams.gid,
+                    pid = $routeParams.pid;
+
+                if (gid) {
+                    this.loadByGid(gid);
+                } else if (pid) {
+                    this.loadByPid(pid);
+                } else {
+                    this.create();
+                }
+            },
+
             create: function() {
                 var game = new Game();
 
@@ -112,6 +125,10 @@
                 });
             },
 
+            refresh: function() {
+                this.loadByGid($rootScope.game.gid);
+            },
+
             addPlayer: function(player) {
                 var game = $rootScope.game;
 
@@ -120,7 +137,7 @@
             },
 
             meIsActivePlayer: function() {
-                return $rootScope.game.activePid === $rootScope.me.pid;
+                return $rootScope.game && $rootScope.game.activePid === $rootScope.me.pid;
             },
 
             /**

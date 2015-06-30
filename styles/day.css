@@ -16,6 +16,11 @@ header .panel {
     margin: 0;
 }
 
+header .active {
+    background-color: orange;
+    color: white;
+}
+
 .queue li {
     margin-right: -60px;
 }

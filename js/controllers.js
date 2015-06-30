@@ -3,14 +3,8 @@
 (function() {
     var appCtrls = angular.module('controllers', []);
 
-    appCtrls.controller('IndexCtrl', function($scope, $routeParams, $location, gameSvc, playerSvc) {
-        var gid = $routeParams.gid;
-
-        if (gid) {
-            gameSvc.loadByGid($routeParams.gid);
-        } else {
-            gameSvc.create();
-        }
+    appCtrls.controller('IndexCtrl', function($scope, $location, gameSvc, playerSvc) {
+        gameSvc.init();
 
         $scope.addPlayer = function() {
             var player = playerSvc.create($scope.playerName);
@@ -22,15 +16,20 @@
         };
     });
 
-    appCtrls.controller('DayCtrl', function($scope, $routeParams, gameSvc) {
-        var pid = $routeParams.pid;
+    appCtrls.controller('DayCtrl', function($scope, $timeout, gameSvc) {
+        gameSvc.init();
 
-        gameSvc.loadByPid(pid);
+        var timeoutFunc = function() {
+            if (!gameSvc.meIsActivePlayer()) {
+                gameSvc.refresh();
+            }
+
+            $timeout(timeoutFunc, 5000);
+        };
+
+        $timeout(timeoutFunc, 5000);
 
         $scope.behead = function() {
-            console.log(this.$first);
-            console.log(gameSvc.meIsActivePlayer());
-
             if (this.$first && gameSvc.meIsActivePlayer()) {
                 gameSvc.behead();
                 gameSvc.nextPlayer();

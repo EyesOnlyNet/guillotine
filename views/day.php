@@ -8,7 +8,7 @@
     <div class="col-xs-11 text-right">
         <ul class="well well-sm list-inline">
             <li ng-repeat="player in game.playerList">
-                <div class="panel">
+                <div class="panel" ng-class="game.activePid === player.pid ? 'active' : 'panel-default'">
                     <div class="panel-body">
                         {{player.name}}
                     </div>
