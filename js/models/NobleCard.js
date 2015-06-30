@@ -65,5 +65,5 @@ function NobleCard(title, color, points, event) {
     this.title = title || '';
     this.color = color || '';
     this.points = points || 0;
-    this.event = event || '';
+    this.event = event || 0;
 }

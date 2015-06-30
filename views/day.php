@@ -19,8 +19,28 @@
 </header>
 
 <div class="container">
-    <ul class="queue list-inline">
-        <li ng-repeat="card in game.queue.cards">
+    <div ng-show="!game.day">
+        <p ng-show="game.activePid === me.pid && game.playerList.length > 1">
+            <span>
+                Das Spiel kann gestartet werden:
+                <button ng-click="startGame()" class="btn btn-warning btn-sm">Start</button>
+            </span>
+        </p>
+
+        <p ng-show="game.activePid !== me.pid">
+            Das Spiel startet, sobald genügend Henker teilnehmen.
+        </p>
+
+        <p>
+            Henker einladen:
+            <span class="well well-sm">
+                <?= sprintf('http://%s/#/guest/{{game.gid}}', filter_input(INPUT_SERVER, 'HTTP_HOST')); ?>
+            </span>
+        </p>
+    </div>
+
+    <ul class="queue list-inline" ng-show="game.day">
+        <li ng-repeat="card in game.queue">
             <div class="panel panel-default" ng-class="card.color" ng-click="behead()">
                 <div class="panel-heading">{{card.title}}</div>
                 <div class="panel-body">
@@ -32,5 +52,9 @@
 
     <pre>
         {{game | json}}
+    </pre>
+
+    <pre>
+        {{me | json}}
     </pre>
 </div>

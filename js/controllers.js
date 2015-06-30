@@ -3,36 +3,42 @@
 (function() {
     var appCtrls = angular.module('controllers', []);
 
-    appCtrls.controller('IndexCtrl', function($scope, $rootScope, $location, dbSvc) {
-        $scope.createGame = function() {
-            var game = new Game(),
-                me = new Player($scope.playerName);
+    appCtrls.controller('IndexCtrl', function($scope, $routeParams, $location, gameSvc, playerSvc) {
+        var gid = $routeParams.gid;
 
-            game.playerList.push(me);
+        if (gid) {
+            gameSvc.loadByGid($routeParams.gid);
+        } else {
+            gameSvc.create();
+        }
 
-            dbSvc.createGame(game, function() {
-                $rootScope.game = game;
-                $rootScope.me = me;
+        $scope.addPlayer = function() {
+            var player = playerSvc.create($scope.playerName);
 
-                $location.path('/day/' + me.pid);
+            gameSvc.addPlayer(player);
+            gameSvc.store(function() {
+                $location.path('/day/' + player.pid);
             });
         };
     });
 
-    appCtrls.controller('DayCtrl', function($scope, $rootScope, $routeParams, dbSvc, gameSvc) {
-        if (!$rootScope.game) {
-            var pid = $routeParams.pid;
+    appCtrls.controller('DayCtrl', function($scope, $routeParams, gameSvc) {
+        var pid = $routeParams.pid;
 
-            dbSvc.readGame({'playerList.pid': pid}, function(game) {
-                $rootScope.game = game;
-                $rootScope.me = game.playerList.filter(function(player) {
-                    return player.pid === pid;
-                }).pop();
-            });
-        }
+        gameSvc.loadByPid(pid);
 
         $scope.behead = function() {
-            this.$first && gameSvc.behead();
+            console.log(this.$first);
+            console.log(gameSvc.meIsActivePlayer());
+
+            if (this.$first && gameSvc.meIsActivePlayer()) {
+                gameSvc.behead();
+                gameSvc.nextPlayer();
+            }
+        };
+
+        $scope.startGame = function() {
+            gameSvc.start();
         };
     });
 })();

@@ -126,7 +126,7 @@ ActionCard.cards = [
 function ActionCard(title, text, step, persistent, playAfterLastDay, event, interaction) {
     this.title = title || '';
     this.text = text || '';
-    this.event = event || null;
+    this.event = event || 0;
     this.step = step || '';
     this.playable = true;
     this.persistent = persistent || false;

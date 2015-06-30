@@ -8,6 +8,10 @@
             templateUrl: '/views/index.php',
             controller: 'IndexCtrl'
         })
+        .when('/guest/:gid', {
+            templateUrl: '/views/index.php',
+            controller: 'IndexCtrl'
+        })
         .when('/day/:pid', {
             templateUrl: '/views/day.php',
             controller: 'DayCtrl'

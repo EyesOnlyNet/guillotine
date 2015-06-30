@@ -1,4 +1,4 @@
-/* global angular, Queue, NobleCard, ActionCard */
+/* global angular, NobleCard, ActionCard */
 
 (function() {
     var appSvcs = angular.module('services', []);
@@ -11,22 +11,15 @@
             connectionUrl = baseUrl + database + collection + apiKey;
 
         return {
-            createGame: function(game, successFunction) {
-                var url = connectionUrl;
-
-                console.log(game);
-                $http.post(url, game).success(successFunction);
-            },
             readGame: function(query, successFunction) {
-                var url = connectionUrl + '&q=' + angular.toJson(query || {}) + '&fo=true';
+                var url = connectionUrl + '&q=' + angular.toJson(query) + '&fo=true';
 
-                $http.get(url).success(successFunction);
+                $http.get(url).success(successFunction || function() {});
             },
-            updateGame: function(query, successFunction) {
-                var url = connectionUrl + '&q=' + angular.toJson(query || {});
+            upsertGame: function(game, successFunction) {
+                var url = connectionUrl + '&u=true&q=' + angular.toJson({gid: game.gid});
 
-                console.log(game);
-                game = $http.put(url, game).success(successFunction);;
+                $http.put(url, game).success(successFunction || function() {});
             }
         };
     }]);
@@ -39,11 +32,16 @@
         };
     });
 
-    appSvcs.factory('playerSvc', function(uuidSvc) {
+    appSvcs.factory('playerSvc', function($rootScope, uuidSvc) {
         return {
-            /**
-             * berechnen der Punktzahl
-             */
+            create: function(name) {
+                var player = new Player(name);
+
+                player.pid = uuidSvc.create();
+
+                return player;
+            },
+
             computePoints: function(player) {
                 var points = 0;
 
@@ -53,20 +51,78 @@
                     }
                 }
 
-                return points;
+                player.points = points;
+
+                return player;
             },
 
-            init: function (player) {
-                player.pid = uuidSvc.create();
+            getIndexOfPlayerInPlayerList: function(pid) {
+                return $rootScope.game.playerList.map(function(e) {
+                    return e.pid;
+                }).indexOf(pid);
             }
         };
     });
 
-    appSvcs.factory('gameSvc', ['$rootScope', function($rootScope, uuidSvc) {
+    appSvcs.factory('meSvc', function($rootScope, playerSvc) {
+        return {
+            create: function(pid) {
+                var me = new Me(pid);
+
+                me.playerListIndex = playerSvc.getIndexOfPlayerInPlayerList(pid);
+                $rootScope.me = me;
+            }
+        };
+    });
+
+    appSvcs.factory('gameSvc', function($rootScope, uuidSvc, playerSvc, meSvc, dbSvc) {
         var actionCardsLimitPerPlayer = 5,
             initialQueueLength = 12;
 
         return {
+            create: function() {
+                var game = new Game();
+
+                game.gid = uuidSvc.create();
+
+                $rootScope.game = game;
+            },
+
+            store: function(onSuccess) {
+                dbSvc.upsertGame($rootScope.game, onSuccess);
+            },
+
+            load: function(query, onSuccess) {
+                dbSvc.readGame(query, function(game) {
+                    $rootScope.game = game;
+
+                    if (onSuccess) {
+                        onSuccess();
+                    }
+                });
+            },
+
+            loadByGid: function(gid) {
+                this.load({'gid': gid});
+            },
+
+            loadByPid: function(pid) {
+                this.load({'playerList.pid': pid}, function() {
+                    meSvc.create(pid);
+                });
+            },
+
+            addPlayer: function(player) {
+                var game = $rootScope.game;
+
+                game.playerList.push(player);
+                game.activePid = game.activePid || player.pid;
+            },
+
+            meIsActivePlayer: function() {
+                return $rootScope.game.activePid === $rootScope.me.pid;
+            },
+
             /**
              * Actionkarten-Stapel befüllen
              */
@@ -141,12 +197,8 @@
             fillQueue: function(count) {
                 var game = $rootScope.game;
 
-                if (game.queue === null) {
-                    game.queue = new Queue();
-                }
-
-                count -= game.queue.cards.length;
-                game.queue.cards = game.queue.cards.concat(this.drawNobleCards(count));
+                count -= game.queue.length;
+                game.queue = game.queue.concat(this.drawNobleCards(count));
             },
 
             /**
@@ -182,7 +234,7 @@
             /**
              * Verteilen der Karten an die Spieler
              */
-            preparePlayers: function() {
+            preparePlayersWithCards: function() {
                 var game = $rootScope.game;
 
                 for (var i = 0; i < actionCardsLimitPerPlayer; i++) {
@@ -200,56 +252,49 @@
              * Ändern der Richtung der Warteschlange
              */
             changeQueueDirection: function() {
-                var game = $rootScope.game;
-
-                game.queue.cards = game.queue.cards.reverse();
+                $rootScope.game.queue.reverse();
             },
 
             /**
              * den ersten Adligen der Reihe köpfen
              */
             behead: function() {
-                var game = $rootScope.game;
+                var game = $rootScope.game,
+                    index = $rootScope.me.playerListIndex,
+                    player = game.playerList[index];
 
-                game.beheadedCards.push(game.queue.cards.shift());
-            },
+                player.nobleCards.push(game.queue.shift());
 
-            /**
-             * Übertragen der geköpften Karten an den aktiven Spieler
-             */
-            activePlayerDrawBeheadedCards: function() {
-                var game = $rootScope.game;
-
-                game.activePlayer.nobleCards = game.activePlayer.nobleCards.concat(game.beheadedCards);
-                game.activePlayer.computePoints();   /* todo: with PlayerSvc*/
-
-                game.beheadedCards = [];
+                game.playerList[index] = playerSvc.computePoints(player);
             },
 
             /**
              * ziehen einer Aktionskarte
              */
-            activePlayerDrawActionCard: function() {
-                var game = $rootScope.game;
-
-                game.activePlayer.actionCards = game.activePlayer.actionCards.concat(this.drawActionCards(1));
+            drawActionCard: function() {
+                $rootScope.game.playerList[$rootScope.me.playerListIndex].actionCards.concat(this.drawActionCards(1));
             },
 
-            /**
-             * erzeugt einen unique identifier
-             */
-            createUid: function() {
-                $rootScope.game.gid = uuidSvc.create();
+            nextPlayer: function() {
+                var game = $rootScope.game,
+                    index = playerSvc.getIndexOfPlayerInPlayerList(game.activePid) + 1;
+
+                game.activePid = game.playerList[index % game.playerList.length].pid;
+
+                dbSvc.upsertGame(game);
             },
 
-            init: function () {
-                this.createUid();
+            start: function () {
                 this.fillActionCardStack();
                 this.fillNobleCardStack();
                 this.mixAllCards();
                 this.fillQueue(initialQueueLength);
-                this.preparePlayers();
+                this.preparePlayersWithCards();
+
+                $rootScope.game.day = 1;
+
+                dbSvc.upsertGame($rootScope.game);
             }
         };
-    }]);
+    });
 })();
