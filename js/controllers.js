@@ -16,18 +16,8 @@
         };
     });
 
-    appCtrls.controller('DayCtrl', function($scope, $timeout, gameSvc) {
+    appCtrls.controller('DayCtrl', function($scope, gameSvc) {
         gameSvc.init();
-
-        var timeoutFunc = function() {
-            if (!gameSvc.meIsActivePlayer()) {
-                gameSvc.refresh();
-            }
-
-            $timeout(timeoutFunc, 5000);
-        };
-
-        $timeout(timeoutFunc, 5000);
 
         $scope.behead = function() {
             if (this.$first && gameSvc.meIsActivePlayer()) {

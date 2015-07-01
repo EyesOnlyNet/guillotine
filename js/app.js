@@ -20,4 +20,24 @@
             redirectTo: '/'
         });
     });
+
+    app.run(function($rootScope, $timeout, gameSvc) {
+        var timeoutFunc = function() {
+            if (gameSvc.meIsActivePlayer()) {
+                watch = false;
+            } else {
+                gameSvc.refresh();
+            }
+
+            $timeout(timeoutFunc, 5000);
+        },
+        watch = false;
+
+        $rootScope.refresh = function() {
+            if (!gameSvc.meIsActivePlayer() && !watch) {
+                watch = true;
+                $timeout(timeoutFunc, 5000);
+            }
+        };
+    });
 })();
