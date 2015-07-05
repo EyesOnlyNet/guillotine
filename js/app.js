@@ -22,21 +22,19 @@
     });
 
     app.run(function($rootScope, $timeout, gameSvc) {
-        var timeoutFunc = function() {
-            if (gameSvc.meIsActivePlayer()) {
-                watch = false;
-            } else {
-                gameSvc.refresh();
-            }
-
-            $timeout(timeoutFunc, 5000);
-        },
-        watch = false;
+        var watch = false;
 
         $rootScope.refresh = function() {
-            if (!gameSvc.meIsActivePlayer() && !watch) {
+            if (!watch) {
                 watch = true;
-                $timeout(timeoutFunc, 5000);
+
+                if (!gameSvc.meIsActivePlayer()) {
+                    gameSvc.refresh();
+                }
+
+                $timeout(function() {
+                    watch = false;
+                }, 5000);
             }
         };
     });
