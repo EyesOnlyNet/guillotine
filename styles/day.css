@@ -21,6 +21,10 @@ header .active {
     color: white;
 }
 
+header .me {
+    font-weight: bold;
+}
+
 .queue li {
     margin-right: -60px;
 }
