@@ -12,6 +12,10 @@ header h1 {
     margin: 10px 0;
 }
 
+header .player-list {
+    margin-left: 0;
+}
+
 header .panel {
     margin: 0;
 }
@@ -25,8 +29,13 @@ header .me {
     font-weight: bold;
 }
 
+.queue {
+    margin-left: 0;
+}
+
 .queue li {
-    margin-right: -60px;
+    margin-right: -50px;
+    padding: 0;
 }
 
 .queue li .panel {

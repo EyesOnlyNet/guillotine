@@ -1,12 +1,12 @@
 <link rel="stylesheet" href="/styles/day.css">
 
-<header>
+<header class="container-fluid row">
     <div class="col-xs-1 well well-sm">
         <h1>Tag {{game.day}}</h1>
     </div>
 
     <div class="col-xs-11 text-right">
-        <ul class="well well-sm list-inline">
+        <ul class="well well-sm list-inline player-list">
             <li ng-repeat="player in game.playerList">
                 <div class="panel panel-default" ng-class="{'active': game.activePid === player.pid, 'me': me.pid === player.pid}">
                     <div class="panel-body">
@@ -19,7 +19,7 @@
 </header>
 
 <div class="container">
-    <div ng-show="!game.day">
+    <div class="col-xs-12" ng-show="!game.day">
         <p ng-show="game.activePid === me.pid && game.playerList.length > 1">
             <span>
                 Das Spiel kann gestartet werden:
@@ -39,16 +39,18 @@
         </p>
     </div>
 
-    <ul class="queue list-inline" ng-show="game.day">
-        <li ng-repeat="card in game.queue">
-            <div class="panel panel-default" ng-class="card.color" ng-click="behead()">
-                <div class="panel-heading">{{card.title}}</div>
-                <div class="panel-body">
-                    <h3>{{card.points}}</h3>
+    <div class="row">
+        <ul class="col-xs-12 queue list-inline" ng-show="game.day">
+            <li ng-repeat="card in game.queue">
+                <div class="panel panel-default" ng-class="card.color" ng-click="behead()">
+                    <div class="panel-heading">{{card.title}}</div>
+                    <div class="panel-body">
+                        <h3>{{card.points}}</h3>
+                    </div>
                 </div>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </div>
 
     <pre>
         {{game | json}}
