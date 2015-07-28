@@ -1,20 +1,42 @@
 <link rel="stylesheet" href="/styles/day.css">
 
-<header class="container-fluid row">
+<header class="row">
     <div class="col-xs-1 well well-sm">
         <h1>Tag {{game.day}}</h1>
     </div>
 
     <div class="col-xs-11 text-right">
-        <ul class="well well-sm list-inline player-list">
-            <li ng-repeat="player in game.playerList">
-                <div class="panel panel-default" ng-class="{'active': game.activePid === player.pid, 'me': me.pid === player.pid}">
-                    <div class="panel-body">
-                        {{player.name}}
+        <div class="well well-sm">
+            <ul class="list-inline player-list">
+                <li class="player" ng-repeat="player in game.playerList">
+                    <div class="compact panel panel-default"
+                         ng-class="{'active': game.activePid === player.pid, 'me': me.pid === player.pid}">
+                        <div class="panel-body">
+                            {{player.name}}
+                        </div>
                     </div>
-                </div>
-            </li>
-        </ul>
+
+                    <div class="detail">
+                        <div class="panel panel-default">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    Adelskarten: <span class="badge">{{player.nobleCards.length}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    Aktionskarten: <span class="badge">{{player.actionCards.length}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    aktive Aktionskarten: <span class="badge">{{player.activeActionCards.length}}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    Punkte: <span class="badge">{{player.points}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </header>
 

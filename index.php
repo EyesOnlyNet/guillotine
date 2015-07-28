@@ -19,6 +19,6 @@
     </head>
 
     <body>
-        <div ng-view ng-mousemove="refresh()"></div>
+        <div class="container-fluid" ng-view ng-mousemove="refresh()"></div>
     </body>
 </html>
