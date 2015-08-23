@@ -22,13 +22,16 @@
         $scope.behead = function() {
             if (this.$first && gameSvc.meIsActivePlayer()) {
                 gameSvc.behead();
-                gameSvc.nextPlayer();
             }
         };
 
         $scope.startGame = function() {
             gameSvc.start();
         };
+    });
+
+    appCtrls.controller('ResultCtrl', function(gameSvc) {
+        gameSvc.init();
     });
 })();
 

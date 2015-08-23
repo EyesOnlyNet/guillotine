@@ -5,6 +5,7 @@
         <title>Lass die Köpfe rollen</title>
         <link rel="shortcut icon" type="image/x-icon" href="/images/icons/crown.ico">
         <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/styles/base.css">
         <script type="text/javascript" src="/node_modules/angular/angular.min.js"></script>
         <script type="text/javascript" src="/node_modules/angular/angular-route.js"></script>
         <script type="text/javascript" src="/js/models/Me.js"></script>

@@ -1,0 +1,12 @@
+header {
+    height: 80px;
+    margin: 10px;
+}
+
+header > * {
+    height: 100%;
+}
+
+header h1 {
+    margin: 10px 0;
+}

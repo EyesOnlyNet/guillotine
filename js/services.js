@@ -57,8 +57,8 @@
             },
 
             getIndexOfPlayerInPlayerList: function(pid) {
-                return $rootScope.game.playerList.map(function(e) {
-                    return e.pid;
+                return $rootScope.game.playerList.map(function(player) {
+                    return player.pid;
                 }).indexOf(pid);
             }
         };
@@ -77,7 +77,8 @@
 
     appSvcs.factory('gameSvc', function($rootScope, $routeParams, uuidSvc, playerSvc, meSvc, dbSvc) {
         var actionCardsLimitPerPlayer = 5,
-            initialQueueLength = 12;
+            initialQueueLength = 12,
+            daysPerPlay = 3;
 
         return {
             init: function() {
@@ -126,7 +127,11 @@
             },
 
             refresh: function() {
-                this.loadByGid($rootScope.game.gid);
+                this.loadByGid($rootScope.game && $rootScope.game.gid);
+            },
+
+            getGid: function() {
+                return $rootScope.game.gid;
             },
 
             addPlayer: function(player) {
@@ -137,7 +142,7 @@
             },
 
             meIsActivePlayer: function() {
-                return $rootScope.game && $rootScope.game.activePid === $rootScope.me.pid;
+                return $rootScope.game && $rootScope.me && $rootScope.game.activePid === $rootScope.me.pid;
             },
 
             /**
@@ -282,8 +287,23 @@
 
                 player.nobleCards.push(game.queue.shift());
 
-                game.playerList[index] = playerSvc.computePoints(player);
+                this.computePoints();
+                this.nextPlayer();
+
+                if(this.endReached()) {
+                    this.end();
+                } else {
+                    this.nextDay();
+                }
             },
+
+            computePoints: function() {
+                var game = $rootScope.game;
+
+                game.playerList.forEach(function(player, index) {
+                    game.playerList[index] = playerSvc.computePoints(player);
+                });
+           },
 
             /**
              * ziehen einer Aktionskarte
@@ -301,6 +321,21 @@
                 dbSvc.upsertGame(game);
             },
 
+            nextDay: function() {
+                var game = $rootScope.game;
+
+                if (game.queue.length === 0) {
+                    game.day++;
+                    this.fillQueue(initialQueueLength);
+                }
+            },
+
+            endReached: function() {
+                var game = $rootScope.game;
+
+                return game.queue.length <= 0 && game.day >= daysPerPlay;
+            },
+
             start: function () {
                 this.fillActionCardStack();
                 this.fillNobleCardStack();
@@ -311,6 +346,10 @@
                 $rootScope.game.day = 1;
 
                 dbSvc.upsertGame($rootScope.game);
+            },
+
+            end: function() {
+                $rootScope.game.activePid = '';
             }
         };
     });

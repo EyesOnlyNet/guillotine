@@ -16,19 +16,28 @@
             templateUrl: '/views/day.php',
             controller: 'DayCtrl'
         })
+        .when('/results/:gid', {
+            templateUrl: '/views/results.php',
+            controller: 'ResultCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
     });
 
-    app.run(function($rootScope, $timeout, gameSvc) {
+    app.run(function($rootScope, $timeout, $location, gameSvc) {
         var watch = false;
 
         $rootScope.refresh = function() {
             if (!watch) {
                 watch = true;
 
-                if (!gameSvc.meIsActivePlayer()) {
+                if (gameSvc.endReached()) {
+                    return;
+                    $location.path('/results/' + gameSvc.getGid());
+                }
+
+                if ($rootScope.me && !gameSvc.meIsActivePlayer()) {
                     gameSvc.refresh();
                 }
 
