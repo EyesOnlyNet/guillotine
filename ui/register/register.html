@@ -4,13 +4,13 @@
 </h1>
 
 <div class="well">
-    <form class="row form-horizontal">
+    <form class="row form-horizontal" ng-submit="regVm.addPlayer()">
         <label class="col-xs-12">
             <span class="col-xs-4 control-label lead">Hallo Henker, wie ist dein Name:</span>
             <span class="col-xs-6 input-group btn-group input-group-lg">
-                <input type="text" class="form-control" ng-model="playerName">
+                <input type="text" class="form-control" ng-model="regVm.playerName">
                 <span class="input-group-btn">
-                    <button class="btn btn-lg btn-warning" ng-disabled="!playerName" ng-click="addPlayer()">
+                    <button class="btn btn-lg btn-warning" ng-disabled="!regVm.playerName">
                         an Exekution teilnehmen
                     </button>
                 </span>
@@ -19,11 +19,11 @@
     </form>
 </div>
 
-<div class="container" ng-show="game.playerList.length">
+<div class="container" ng-show="regVm.game">
     <h3>Mitspieler gefunden:</h3>
 
     <ul>
-        <li ng-repeat="player in game.playerList">
+        <li ng-repeat="player in regVm.game.playerList">
             {{player.name}}
         </li>
     </ul>
