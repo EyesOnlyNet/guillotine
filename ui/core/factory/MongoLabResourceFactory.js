@@ -12,7 +12,11 @@ angular.module('mongoLabResource', [])
         var defaultParams = {apiKey: config.API_KEY};
 
         var resourceRespTransform = function (response) {
-            return new Resource(response.data);
+            if (angular.isArray(response)) {
+                return resourcesArrayRespTransform(response);
+            } else {
+                return new Resource(response.data);
+            }
         };
 
         var resourcesArrayRespTransform = function (response) {
@@ -33,7 +37,7 @@ angular.module('mongoLabResource', [])
 
             var prepareOptions = function (options) {
 
-                var optionsMapping = {sort: 's', limit: 'l', fields: 'f', skip: 'sk'};
+                var optionsMapping = {sort: 's', limit: 'l', fields: 'f', skip: 'sk', findOne: 'fo'};
                 var optionsTranslated = {};
 
                 if (options && !angular.equals(options, {})) {
@@ -52,7 +56,7 @@ angular.module('mongoLabResource', [])
 
             var requestParams = angular.extend({}, defaultParams, preparyQueryParam(queryJson), prepareOptions(options));
 
-            return $http.get(collectionUrl, {params: requestParams}).then(resourcesArrayRespTransform);
+            return $http.get(collectionUrl, {params: requestParams}).then(resourceRespTransform);
         };
 
         Resource.all = function (options, successcb, errorcb) {

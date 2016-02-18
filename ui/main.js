@@ -2,7 +2,7 @@ require.config({
   paths: {
       'angular' : '../node_modules/angular/angular',
       'angularUiRouter' : '../node_modules/angular-ui-router/release/angular-ui-router',
-      'MongoLabResourceFactory' : 'core/factories/persistence/MongoLabResourceFactory'
+      'MongoLabResourceFactory' : 'core/factory/MongoLabResourceFactory'
   },
   shim: {
       MongoLabResourceFactory: {

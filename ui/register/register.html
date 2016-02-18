@@ -11,20 +11,10 @@
                 <input type="text" class="form-control" ng-model="regVm.playerName">
                 <span class="input-group-btn">
                     <button class="btn btn-lg btn-warning" ng-disabled="!regVm.playerName">
-                        an Exekution teilnehmen
+                        Exekution starten
                     </button>
                 </span>
             </span>
         </label>
     </form>
-</div>
-
-<div class="container" ng-show="regVm.game">
-    <h3>Mitspieler gefunden:</h3>
-
-    <ul>
-        <li ng-repeat="player in regVm.game.playerList">
-            {{player.name}}
-        </li>
-    </ul>
 </div>

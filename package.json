@@ -1,0 +1,30 @@
+{
+  "name": "guillotine",
+  "version": "0.0.1",
+  "description": "An online-version of the card-game guillotine",
+  "main": "ui/main.js",
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-ui-router": "^0.2.18",
+    "bootstrap": "^3.3.6",
+    "requirejs": "^2.1.22"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EyesOnlyNet/guillotine.git"
+  },
+  "keywords": [
+    "game",
+    "angular"
+  ],
+  "author": "Steve Reichenbach",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EyesOnlyNet/guillotine/issues"
+  },
+  "homepage": "https://github.com/EyesOnlyNet/guillotine#readme"
+}

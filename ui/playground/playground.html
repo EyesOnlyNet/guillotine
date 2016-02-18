@@ -3,17 +3,17 @@
 
 <header class="header row">
     <div class="day col-xs-1 well well-sm">
-        <h1>Tag {{dayView.game.day}}</h1>
+        <h1>Tag {{playVm.game.day}}</h1>
     </div>
 
     <div class="info-bar col-xs-11 text-right">
         <div class="well well-sm">
             <ul class="list-inline player-list">
-                <li class="player" ng-repeat="player in dayView.game.playerList">
+                <li class="player" ng-repeat="player in playVm.game.playerList">
                     <div class="compact panel panel-default"
-                         ng-class="{'active': dayView.game.activePid === player.pid, 'me': me.pid === player.pid}">
+                         ng-class="{'active': playVm.game.activePlayer.id === player.id, 'me': me.pid === player.id}">
                         <div class="panel-body">
-                            {{player.name}}
+                            {{player.name}} ({{player.id}})
                         </div>
                     </div>
 
@@ -42,30 +42,10 @@
 </header>
 
 <div class="container">
-    <div class="col-xs-12" ng-show="!dayView.game.day">
-        <p ng-show="dayView.game.activePid === me.pid && dayView.game.playerList.length > 1">
-            <span>
-                Das Spiel kann gestartet werden:
-                <button ng-click="dayView.startGame()" class="btn btn-warning btn-sm">Start</button>
-            </span>
-        </p>
-
-        <p ng-show="dayView.game.activePid !== me.pid">
-            Das Spiel startet, sobald genügend Henker teilnehmen.
-        </p>
-
-        <p>
-            Henker einladen:
-            <span class="well well-sm">
-                <?= sprintf('http://%s/#/guest/{{dayView.game.gid}}', filter_input(INPUT_SERVER, 'HTTP_HOST')); ?>
-            </span>
-        </p>
-    </div>
-
     <div class="row">
-        <ul class="col-xs-12 queue list-inline" ng-show="dayView.game.day">
-            <li ng-repeat="card in dayView.game.queue">
-                <div class="panel panel-default" ng-class="card.color" ng-click="dayView.behead()">
+        <ul class="col-xs-12 queue list-inline">
+            <li ng-repeat="card in playVm.game.queue">
+                <div class="panel panel-default" ng-class="card.color" ng-click="playVm.behead()">
                     <div class="panel-heading">{{card.title}}</div>
                     <div class="panel-body">
                         <h3>{{card.points}}</h3>
@@ -76,10 +56,10 @@
     </div>
 
     <pre>
-        {{dayView.game | json}}
+        {{playVm.game | json}}
     </pre>
 
     <pre>
-        {{me | json}}
+        {{playVm.me | json}}
     </pre>
 </div>

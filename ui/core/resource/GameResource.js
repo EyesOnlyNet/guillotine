@@ -1,9 +1,9 @@
 define([], function() {
     'use strict';
 
-    function Game($mongoLabResource) {
+    function GameResource($mongoLabResource) {
         return $mongoLabResource('game');
     };
 
-    return Game;
+    return GameResource;
 });

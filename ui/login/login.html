@@ -1,0 +1,20 @@
+<h1 class="well">
+    Guillotine
+    <small>Lass die Köpfe rollen</small>
+</h1>
+
+<div class="well">
+    <form class="row form-horizontal" ng-submit="logVm.loadGameByPlayer()">
+        <label class="col-xs-12">
+            <span class="col-xs-4 control-label lead">Hallo Henker, wie lautet dein Kennwort:</span>
+            <span class="col-xs-6 input-group btn-group input-group-lg">
+                <input type="text" class="form-control" ng-model="logVm.playerId">
+                <span class="input-group-btn">
+                    <button class="btn btn-lg btn-warning" ng-disabled="!logVm.playerId">
+                        Exekution weiterführen
+                    </button>
+                </span>
+            </span>
+        </label>
+    </form>
+</div>

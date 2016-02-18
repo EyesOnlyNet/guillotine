@@ -10,12 +10,26 @@ define(function (require) {
             'mongoLabResource'
         ]);
 
-    app.constant('MONGOLAB_CONFIG', {API_KEY:'50773553e4b03a45bd2f336b', DB_NAME:'guillotine'});
+    app.factory('GameResource', require('core/resource/GameResource'));
+    app.factory('UuidService', require('core/service/UuidService'));
+    app.factory('PlayerService', require('core/service/PlayerService'));
+    app.factory('GameService', require('core/service/GameService'));
+
+    app.value('settings', {});
+
+    app.constant('MONGOLAB_CONFIG', {
+        API_KEY:'50773553e4b03a45bd2f336b',
+        DB_NAME:'guillotine'
+    });
+    app.constant('GAME_CONFIG', {
+        actionCardsLimitPerPlayer: 5,
+        initialQueueLength: 12,
+        daysPerPlay: 3
+    });
 
     app.controller('RegisterController', require('register/RegisterController'));
-
-    app.factory('PlayerService', require('core/factories/PlayerService'));
-    app.factory('Game', require('core/factories/persistence/Game'));
+    app.controller('LoginController', require('login/LoginController'));
+    app.controller('PlaygroundController', require('playground/PlaygroundController'));
 
     app.config(function ($locationProvider, $urlRouterProvider, $stateProvider) {
         $locationProvider.html5Mode({
@@ -23,15 +37,46 @@ define(function (require) {
             requireBase: false
         });
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/hang-in');
 
         $stateProvider.state(
-            'start', {
-                url: '/',
+            'hangIn', {
+                url: '/hang-in',
                 templateUrl: '/ui/register/register.html',
                 controller: 'RegisterController as regVm'
             }
+        ).state(
+            'hangOn', {
+                url: '/hang-on',
+                templateUrl: '/ui/login/login.html',
+                controller: 'LoginController as logVm'
+            }
+        ).state(
+            'playground', {
+                url: '/playground',
+                templateUrl: '/ui/playground/playground.html',
+                controller: 'PlaygroundController as playVm'
+            }
+        ).state(
+            'end', {
+                url: '/end',
+                templateUrl: '/ui/result/result.html',
+                controller: 'ResultController as resVm'
+            }
         );
+    });
+
+    app.run(function(settings, $rootScope, $state) {
+        $rootScope.$on('$stateChangeStart', function(evt, to) {
+            if (to.name === 'hangOn') {
+                return;
+            }
+
+            if (!settings.game) {
+                evt.preventDefault();
+                $state.go('hangOn');
+            }
+        });
     });
 
     app.init = function () {
