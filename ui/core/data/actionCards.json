@@ -1,0 +1,107 @@
+[
+    {
+        "id": 1,
+        "name": "Revolte",
+        "description": "Mische die ersten 5 Karten der Warteschlange.",
+        "persistent": false,
+        "playableAfterLastDay": false
+    },
+    {
+        "id": 2,
+        "name": "Doppelkopf",
+        "description": "Köpfe den Ersten der Warteschlange.",
+        "persistent": false,
+        "playableAfterLastDay": false
+    },
+    {
+        "id": 3,
+        "name": "Fortuna",
+        "description": "Du bekommst 2 Extrapunkte.",
+        "persistent": true,
+        "playableAfterLastDay": true
+    },
+    {
+        "id": 4,
+        "name": "Nachschub",
+        "description": "Lege 3 Adlige an das Ende der Warteschlange.",
+        "persistent": false,
+        "playableAfterLastDay": false
+    },
+    {
+        "id": 5,
+        "name": "Freigang",
+        "description": "Entferne einen beliebigen Adligen aus der Warteschlange.",
+        "persistent": false,
+        "playableAfterLastDay": false
+    },
+    {
+        "id": 6,
+        "name": "Furchtlos",
+        "description": "Die Reihenfolge der Warteschlange darf solange nicht verändert werden, wie diese Karte ausgespielt ist.",
+        "persistent": true,
+        "playableAfterLastDay": false
+    },
+    {
+        "id": 7,
+        "name": "Die Mutige",
+        "description": "Bewege Marie Antoinette an die Spitze der Warteschlange.",
+        "persistent": true,
+        "playableAfterLastDay": false
+    },
+    {
+        "id": 8,
+        "name": "Königshaus",
+        "description": "Du erhältst für jeden roten Adligen einen Extrapunkt.",
+        "persistent": true,
+        "playableAfterLastDay": true
+    },
+    {
+        "id": 9,
+        "name": "Glaubensbekenntnis",
+        "description": "Du erhältst für jeden blauen Adligen einen Extrapunkt.",
+        "persistent": true,
+        "playableAfterLastDay": true
+    },
+    {
+        "id": 10,
+        "name": "Volksherschaft",
+        "description": "Du erhältst für jeden grünen Adligen einen Extrapunkt.",
+        "persistent": true,
+        "playableAfterLastDay": true
+    },
+    {
+        "id": 11,
+        "name": "Blaues Blut",
+        "description": "Du erhältst für jeden violetten Adligen einen Extrapunkt.",
+        "persistent": true,
+        "playableAfterLastDay": true
+    },
+    {
+        "id": 12,
+        "name": "Glück im Unglück",
+        "description": "Jeder schwarze Adlige zählt einen Punkt.",
+        "persistent": true,
+        "playableAfterLastDay": true
+    },
+    {
+        "id": 13,
+        "name": "Umgedreht",
+        "description": "Stelle die Guillotine an das andere Ende der Warteschlange.",
+        "persistent": false,
+        "playableAfterLastDay": false
+    },
+    {
+        "id": 14,
+        "name": "Adelsanwärter",
+        "description": "Für jeden violetten geköpften Adligen darfst du eine Aktionskarte ziehen.",
+        "persistent": true,
+        "playableAfterLastDay": false
+    },
+    {
+        "id": 15,
+        "name": "Unglück",
+        "description": "Du bekommst 2 Punkte abgezogen.",
+        "persistent": true,
+        "playableAfterLastDay": true
+    }
+]

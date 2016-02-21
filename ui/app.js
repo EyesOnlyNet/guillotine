@@ -4,18 +4,18 @@ define(function (require) {
     require('angularUiRouter');
     require('MongoLabResourceFactory');
 
-    var angular = require('angular'),
-        app = angular.module('guillotine', [
-            'ui.router',
-            'mongoLabResource'
-        ]);
+    var angular = require('angular');
+    var app = angular.module('guillotine', [
+        'ui.router',
+        'mongoLabResource'
+    ]);
 
     app.factory('GameResource', require('core/resource/GameResource'));
     app.factory('UuidService', require('core/service/UuidService'));
     app.factory('PlayerService', require('core/service/PlayerService'));
+    app.factory('CardService', require('core/service/CardService'));
     app.factory('GameService', require('core/service/GameService'));
-
-    app.value('settings', {});
+    app.factory('StorageService', require('core/service/StorageService'));
 
     app.constant('MONGOLAB_CONFIG', {
         API_KEY:'50773553e4b03a45bd2f336b',
@@ -26,6 +26,8 @@ define(function (require) {
         initialQueueLength: 12,
         daysPerPlay: 3
     });
+
+    app.constant('ACTION_CARDS', require('json!core/data/actionCards.json'));
 
     app.controller('RegisterController', require('register/RegisterController'));
     app.controller('LoginController', require('login/LoginController'));
@@ -66,18 +68,18 @@ define(function (require) {
         );
     });
 
-    app.run(function(settings, $rootScope, $state) {
+    app.run(['$rootScope', '$state', 'StorageService', function($rootScope, $state, StorageService) {
         $rootScope.$on('$stateChangeStart', function(evt, to) {
             if (to.name === 'hangOn') {
                 return;
             }
 
-            if (!settings.game) {
+            if (StorageService.getGame() === void 0) {
                 evt.preventDefault();
                 $state.go('hangOn');
             }
         });
-    });
+    }]);
 
     app.init = function () {
         angular.bootstrap(document, ['guillotine']);
