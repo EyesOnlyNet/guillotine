@@ -1,7 +1,7 @@
 define([], function() {
     'use strict';
 
-    function RegisterController(GameService, PlayerService, settings, $state) {
+    function RegisterController(GameService, PlayerService, StorageService, $state) {
         var vm = this;
 
         vm.playerName;
@@ -15,8 +15,8 @@ define([], function() {
             game.activePlayer = player;
 
             game.$save().then(function() {
-                settings.game = game;
-                settings.me = player;
+                StorageService.setGame(game);
+                StorageService.setMe(player);
 
                 $state.go('playground');
             });
