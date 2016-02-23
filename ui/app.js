@@ -24,10 +24,10 @@ define(function (require) {
     app.constant('GAME_CONFIG', {
         actionCardsLimitPerPlayer: 5,
         initialQueueLength: 12,
-        daysPerPlay: 3
+        daysPerPlay: 3,
+        actionCards: require('json!core/data/actionCards.json'),
+        nobleCards: require('json!core/data/nobleCards.json')
     });
-
-    app.constant('ACTION_CARDS', require('json!core/data/actionCards.json'));
 
     app.controller('RegisterController', require('register/RegisterController'));
     app.controller('LoginController', require('login/LoginController'));

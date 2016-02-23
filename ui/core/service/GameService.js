@@ -1,7 +1,7 @@
 define([], function() {
     'use strict';
 
-    function GameService(GAME_CONFIG, ACTION_CARDS, GameResource, UuidService, CardService) {
+    function GameService(GAME_CONFIG, GameResource, UuidService, CardService) {
         return {
             create: create,
             start: start,
@@ -25,7 +25,8 @@ define([], function() {
 
         function start(game) {
             game.day = 1;
-            game.actionCardStack = CardService.mix(ACTION_CARDS);
+            game.actionCardStack = CardService.mix(GAME_CONFIG.actionCards);
+            game.nobleCardStack = CardService.mix(GAME_CONFIG.nobleCards);
         }
 
         function loadByPlayerId(playerId) {

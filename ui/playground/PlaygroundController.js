@@ -7,7 +7,11 @@ define([], function() {
         vm.game = StorageService.getGame();
         vm.me = StorageService.getMe();
 
-        GameService.start(vm.game);
+        vm.start = start;
+
+        function start() {
+            GameService.start(vm.game);
+        }
     }
 
     return PlaygroundController;
