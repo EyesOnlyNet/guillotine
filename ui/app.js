@@ -22,9 +22,9 @@ define(function (require) {
         DB_NAME:'guillotine'
     });
     app.constant('GAME_CONFIG', {
-        actionCardsLimitPerPlayer: 5,
-        initialQueueLength: 12,
-        daysPerPlay: 3,
+        actionCardsPerPlayer: 5,
+        queueLength: 6,
+        days: 2,
         actionCards: require('json!core/data/actionCards.json'),
         nobleCards: require('json!core/data/nobleCards.json')
     });

@@ -3,19 +3,22 @@ define([], function() {
 
     function CardService() {
         return {
-            mix: mix
+            mix: mix,
+            draw: draw
         };
 
         function mix(cards) {
-            for (var i = 0; i < cards.length; i++) {
-                var position = Math.round(Math.random()) % cards.length,
-                    randomCard = cards[position];
+            var random = cards.map(Math.random);
 
-                cards.splice(position, 1);
-                cards.push(randomCard);
-            }
+            cards.sort(function(cardLeft, cardRight) {
+              return random[cardLeft.id] - random[cardRight.id];
+            });
+        }
 
-            return cards;
+        function draw(stack, count) {
+            return (count > 0)
+                ? stack.splice(0, count)
+                : [];
         }
     }
 

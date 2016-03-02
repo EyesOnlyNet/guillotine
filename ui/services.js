@@ -164,81 +164,6 @@
             return $rootScope.game && $rootScope.me && $rootScope.game.activePid === $rootScope.me.pid;
         };
 
-        function fillActionCardStack() {
-            $rootScope.game.actionCardStack = ActionCard.cards;
-        };
-
-        function fillNobleCardStack() {
-            $rootScope.game.nobleCardStack = NobleCard.cards;
-        };
-
-        function mixAllCards() {
-            mixActionCardStack();
-            mixNobleCardStack();
-        };
-
-        function mixActionCardStack() {
-            var game = $rootScope.game;
-
-            if (game.actionCardStack.length === 0) {
-                fillActionCardStack();
-            }
-
-            game.actionCardStack = mixCards(game.actionCardStack);
-        };
-
-        function mixNobleCardStack() {
-            var game = $rootScope.game;
-
-            if (game.nobleCardStack.length === 0) {
-                fillNobleCardStack();
-            }
-
-            game.nobleCardStack = mixCards(game.nobleCardStack);
-        };
-
-        function mixCards(cards) {
-            var length = cards.length,
-                iterations = length * 3;
-
-            for (var i = 0; i < iterations; i++) {
-                var position   = Math.round((Math.random() * iterations)) % length,
-                    randomCard = cards[position];
-
-                cards.splice(position, 1);
-                cards.push(randomCard);
-            }
-
-            return cards;
-        };
-
-        function fillQueue(count) {
-            var game = $rootScope.game;
-
-            count -= game.queue.length;
-            game.queue = game.queue.concat(drawNobleCards(count));
-        };
-
-        function drawActionCards(count) {
-            var cards = [];
-
-            if (count > 0) {
-                cards = $rootScope.game.actionCardStack.splice(0, count);
-            }
-
-            return cards;
-        };
-
-        function drawNobleCards(count) {
-            var cards = [];
-
-            if (count > 0) {
-                cards = $rootScope.game.nobleCardStack.splice(0, count);
-            }
-
-            return cards;
-        };
-
         function preparePlayersWithCards() {
             var game = $rootScope.game;
 
@@ -313,15 +238,7 @@
         };
 
         function start() {
-            fillActionCardStack();
-            fillNobleCardStack();
-            mixAllCards();
-            fillQueue(initialQueueLength);
             preparePlayersWithCards();
-
-            $rootScope.game.day = 1;
-
-            DbSvc.upsertGame($rootScope.game);
         };
 
         function end() {

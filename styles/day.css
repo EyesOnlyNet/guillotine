@@ -3,10 +3,6 @@
     margin: 10px -15px;
 }
 
-.header * {
-    height: 100%;
-}
-
 .header h1 {
     margin: 10px 0;
 }
@@ -21,7 +17,6 @@
 
 .header .player .detail {
     display: none;
-    overflow: hidden;
     position: absolute;
     right: 5px;
     text-align: left;
@@ -34,21 +29,20 @@
     display: block;
 }
 
-.header .player .detail .panel {
-    margin-top: 10px;
-}
-
-.header .player .detail .panel:before {
-    border-bottom: 10px solid lightgray;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
-    bottom: 100%;
+.header .player:hover:after {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid lightgray;
+    bottom: -9px;
     content: "";
     height: 0;
     position: absolute;
-    right: 20px;
-    top: 0;
+    right: 40%;
     width: 0;
+}
+
+.header .player .detail .panel {
+    margin-top: 10px;
 }
 
 .header .panel {
@@ -89,45 +83,78 @@
     -o-hyphens: auto;
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
-    hyphens: auto;
     display: table-cell;
+    font-size: 0.9em;
     height: 62px;
+    hyphens: auto;
+    max-width: 120px;
+    overflow: hidden;
     vertical-align: middle;
     width: 120px;
 }
 
-.queue .blue {
+.card.blue {
     border-color: skyblue;
 }
 
-.queue .blue .panel-heading {
+.card.blue.list-group-item,
+.card.blue .panel-heading {
     background-color: lightskyblue;
 }
 
-.queue .violet {
+.card.violet {
     border-color: violet;
 }
 
-.queue .violet .panel-heading {
+.card.violet.list-group-item,
+.card.violet .panel-heading {
     background-color: lightpink;
 }
 
-.queue .green {
+.card.green {
     border-color: lightgreen;
 }
 
-.queue .green .panel-heading {
+.card.green.list-group-item,
+.card.green .panel-heading {
     background-color: greenyellow;
 }
 
-.queue .red {
+.card.red {
     border-color: lightcoral;
 }
 
-.queue .red .panel-heading {
+.card.red.list-group-item,
+.card.red .panel-heading {
     background-color: lightsalmon;
 }
 
-.queue .black {
-    border-color: slategray;
+.card.black {
+    border-color: black;
+}
+
+.card.black.list-group-item,
+.card.black.list-group-item h3,
+.card.black .panel-heading {
+    background-color: black;
+    color: white;
+}
+
+.container .detail {
+    border: 5px dashed gray;
+    border-radius: 10px;
+    position: relative;
+}
+
+.container .detail .glyphicon-remove {
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 25px;
+    padding: 3px;
+    position: absolute;
+    right: -15px;
+    top: -10px;
+    z-index: 1;
 }

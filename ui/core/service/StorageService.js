@@ -5,8 +5,8 @@ define([], function() {
         return {
             setGame: setGame,
             getGame: getGame,
-            setMe: setMe,
-            getMe: getMe
+            setMyPlayerId: setMyPlayerId,
+            getMyPlayerId: getMyPlayerId
         };
 
         function setGame(game) {
@@ -17,12 +17,12 @@ define([], function() {
             return angular.fromJson(sessionStorage.getItem('game'));
         }
 
-        function setMe(player) {
-            sessionStorage.setItem('me', angular.toJson(player));
+        function setMyPlayerId(playerId) {
+            sessionStorage.setItem('myPlayerId', angular.toJson(playerId));
         }
 
-        function getMe() {
-            return angular.fromJson(sessionStorage.getItem('me'));
+        function getMyPlayerId() {
+            return angular.fromJson(sessionStorage.getItem('myPlayerId'));
         }
     }
 

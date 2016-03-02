@@ -12,7 +12,7 @@
             <ul class="list-inline player-list">
                 <li class="player" ng-repeat="player in game.playerList">
                     <div class="panel panel-default"
-                         ng-class="{'active': game.activePlayer.id === player.id, 'me': me.pid === player.id}">
+                         ng-class="{'active': game.activePlayerId === player.id, 'me': me.id === player.id}">
                         <div class="panel-body">
                             {{player.name}}
                         </div>

@@ -10,11 +10,11 @@ define([], function() {
         function loadGameByPlayer() {
             GameService.loadByPlayerId(vm.playerId).then(function(game) {
                 var me = game.playerList.filter(function(player) {
-                    return player.id = vm.playerId;
+                    return player.id === vm.playerId;
                 }).pop();
 
                 StorageService.setGame(game);
-                StorageService.setMe(me);
+                StorageService.setMeId(me.id);
 
                 $state.go('playground');
             });

@@ -1,16 +1,38 @@
 define([], function() {
     'use strict';
 
-    function PlaygroundController(GameService, StorageService) {
+    function PlaygroundController(GameService, StorageService, $state) {
         var vm = this;
 
-        vm.game = StorageService.getGame();
-        vm.me = StorageService.getMe();
+        GameService.load();
+
+        vm.game = GameService.get();
+        vm.me = GameService.getPlayerById(StorageService.getMyPlayerId());
+        vm.detailPlayer;
 
         vm.start = start;
+        vm.behead = behead;
+        vm.showPlayerDetails = showPlayerDetails;
+        vm.closePlayerDetails = closePlayerDetails;
 
         function start() {
-            GameService.start(vm.game);
+            GameService.start();
+        }
+
+        function behead() {
+            GameService.behead(1);
+
+            if (GameService.isGameEnded()) {
+                $state.go('end');
+            }
+        }
+
+        function showPlayerDetails(id) {
+            vm.detailPlayer = GameService.getPlayerById(id);
+        }
+
+        function closePlayerDetails() {
+            vm.detailPlayer = void 0;
         }
     }
 
