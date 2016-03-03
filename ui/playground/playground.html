@@ -61,10 +61,16 @@
     <div class="row detail" ng-if="playVm.detailPlayer">
         <i class="glyphicon glyphicon-remove" ng-click="playVm.closePlayerDetails()"></i>
 
-        <div class="played-action-cards col-xs-6">
+        <div class="col-xs-12" ng-if="playVm.game.day === 0">
+            <h2 class="jumbotron">
+                Sobald das Spiel gestartet ist, werden hier die Aktions-und Adelskarten angezeigt.
+            </h2>
+        </div>
+
+        <div class="played-action-cards col-xs-6" ng-if="playVm.detailPlayer.playedActionCards.length">
             <h2 class="heading">ausgespielte Aktionskarten</h2>
 
-            <div class="list-group" ng-if="playVm.detailPlayer.playedActionCards">
+            <div class="list-group">
                 <div class="list-group-item" ng-repeat="card in playVm.detailPlayer.playedActionCards">
                     <h3 class="list-group-item-heading">{{card.name}} ({{card.id}})</h3>
                     <p>{{card.description}}</p>
@@ -72,10 +78,10 @@
             </div>
         </div>
 
-        <div class="action-cards col-xs-6" ng-if="playVm.me.id === playVm.detailPlayer.id">
+        <div class="action-cards col-xs-6" ng-if="playVm.me.id === playVm.detailPlayer.id && playVm.detailPlayer.actionCards.length">
             <h2 class="heading">Hand-Aktionskarten</h2>
 
-            <div class="list-group" ng-if="playVm.detailPlayer.actionCards">
+            <div class="list-group">
                 <a href="#" class="list-group-item" ng-repeat="card in playVm.detailPlayer.actionCards">
                     <h3 class="list-group-item-heading">{{card.name}} ({{card.id}})</h3>
                     <p>{{card.description}}</p>
@@ -83,10 +89,10 @@
             </div>
         </div>
 
-        <div class="action-cards col-xs-12" ng-if="playVm.me.id === playVm.detailPlayer.id">
+        <div class="action-cards col-xs-6" ng-if="playVm.me.id === playVm.detailPlayer.id && playVm.detailPlayer.nobleCards.length">
             <h2 class="heading">Adelskarten</h2>
 
-            <div class="list-group" ng-if="playVm.detailPlayer.nobleCards">
+            <div class="list-group">
                 <div class="list-group-item card" ng-class="card.color" ng-repeat="card in playVm.detailPlayer.nobleCards">
                     <h3 class="list-group-item-heading">{{card.name}} ({{card.id}})</h3>
                     <p>Punkte: {{card.points}}</p>
