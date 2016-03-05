@@ -1,7 +1,9 @@
 define([], function() {
     'use strict';
 
-    function GameService(GAME_CONFIG, GameResource, StorageService, UuidService, PlayerService, CardService) {
+    function GameService(GAME_CONFIG, GameResource, StorageService, UuidService, PlayerService, CardService,
+        EventService
+    ) {
         var game = {};
 
         return {
@@ -15,7 +17,8 @@ define([], function() {
             isDayEnded: isDayEnded,
             start: start,
             nextDay: nextDay,
-            behead: behead
+            behead: behead,
+            playActionCard: playActionCard
         };
 
         function create() {
@@ -85,18 +88,40 @@ define([], function() {
             game.queue = CardService.draw(game.nobleCardStack, GAME_CONFIG.queueLength);
         }
 
+        function getActivePlayer() {
+            return getPlayerById(game.activePlayerId);
+        }
+
         function behead(count) {
-            var activePlayer = getPlayerById(game.activePlayerId);
+            var activePlayer = getActivePlayer();
 
             activePlayer.nobleCards.push(game.queue.splice(0, count).pop());
-            activePlayer.points = 0;
-            activePlayer.nobleCards.forEach(function(card) {
-                activePlayer.points += card.points;
-            });
+            computeAllPoints();
 
             if (isDayEnded()) {
                 nextDay();
             }
+        }
+
+        function computeAllPoints() {
+            game.playerList.forEach(function(player) {
+                PlayerService.computePoints(player);
+            });
+        }
+
+        function playActionCard(card) {
+            var activePlayer = getActivePlayer();
+            var cardIndex = activePlayer.actionCards.indexOf(card);
+
+            EventService.apply(activePlayer, card);
+
+            if(card.persistent) {
+                activePlayer.activeActionCards.push(card);
+            } else {
+                game.playedActionCards.push(card);
+            }
+
+            activePlayer.actionCards.splice(cardIndex, 1);
         }
     }
 

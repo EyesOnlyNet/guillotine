@@ -14,6 +14,7 @@ define([], function() {
         vm.behead = behead;
         vm.showPlayerDetails = showPlayerDetails;
         vm.closePlayerDetails = closePlayerDetails;
+        vm.playActionCard = playActionCard;
 
         function start() {
             GameService.start();
@@ -33,6 +34,10 @@ define([], function() {
 
         function closePlayerDetails() {
             vm.detailPlayer = void 0;
+        }
+
+        function playActionCard(card) {
+            GameService.playActionCard(card);
         }
     }
 

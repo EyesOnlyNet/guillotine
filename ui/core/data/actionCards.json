@@ -18,7 +18,9 @@
         "name": "Fortuna",
         "description": "Du bekommst 2 Extrapunkte.",
         "persistent": true,
-        "playableAfterLastDay": true
+        "playableAfterLastDay": true,
+        "step": "afterCalculation",
+        "action": "add2Points"
     },
     {
         "id": 4,
@@ -53,35 +55,45 @@
         "name": "Königshaus",
         "description": "Du erhältst für jeden roten Adligen einen Extrapunkt.",
         "persistent": true,
-        "playableAfterLastDay": true
+        "playableAfterLastDay": true,
+        "step": "afterCalculation",
+        "action": "add1PointPerRedNoble"
     },
     {
         "id": 9,
         "name": "Glaubensbekenntnis",
         "description": "Du erhältst für jeden blauen Adligen einen Extrapunkt.",
         "persistent": true,
-        "playableAfterLastDay": true
+        "playableAfterLastDay": true,
+        "step": "afterCalculation",
+        "action": "add1PointPerBlueNoble"
     },
     {
         "id": 10,
         "name": "Volksherschaft",
         "description": "Du erhältst für jeden grünen Adligen einen Extrapunkt.",
         "persistent": true,
-        "playableAfterLastDay": true
+        "playableAfterLastDay": true,
+        "step": "afterCalculation",
+        "action": "add1PointPerGreenNoble"
     },
     {
         "id": 11,
         "name": "Blaues Blut",
         "description": "Du erhältst für jeden violetten Adligen einen Extrapunkt.",
         "persistent": true,
-        "playableAfterLastDay": true
+        "playableAfterLastDay": true,
+        "step": "afterCalculation",
+        "action": "add1PointPerVioletNoble"
     },
     {
         "id": 12,
         "name": "Glück im Unglück",
         "description": "Jeder schwarze Adlige zählt einen Punkt.",
         "persistent": true,
-        "playableAfterLastDay": true
+        "playableAfterLastDay": true,
+        "step": "afterCalculation",
+        "action": "setBlackNoblePointsTo1"
     },
     {
         "id": 13,
