@@ -16,7 +16,6 @@ define(function (require) {
     app.factory('CardService', require('core/service/CardService'));
     app.factory('GameService', require('core/service/GameService'));
     app.factory('StorageService', require('core/service/StorageService'));
-    app.factory('EventService', require('core/service/EventService'));
 
     app.constant('MONGOLAB_CONFIG', {
         API_KEY:'50773553e4b03a45bd2f336b',

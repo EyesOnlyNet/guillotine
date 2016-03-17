@@ -1,7 +1,7 @@
 define([], function() {
     'use strict';
 
-    function PlaygroundController(GameService, StorageService, $state) {
+    function PlaygroundController($state, GameService, StorageService) {
         var vm = this;
 
         GameService.load();
@@ -21,7 +21,7 @@ define([], function() {
         }
 
         function behead() {
-            GameService.behead(1);
+            GameService.behead();
 
             if (GameService.isGameEnded()) {
                 $state.go('end');

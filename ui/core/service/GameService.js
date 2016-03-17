@@ -1,16 +1,16 @@
 define([], function() {
     'use strict';
 
-    function GameService(GAME_CONFIG, GameResource, StorageService, UuidService, PlayerService, CardService,
-        EventService
-    ) {
+    function GameService(GAME_CONFIG, GameResource, StorageService, UuidService, PlayerService, CardService) {
         var game = {};
+        var actions = {
+            behead1: behead
+        };
 
         return {
             create: create,
-            set: set,
-            get: get,
             load: load,
+            get: get,
             loadByPlayerId: loadByPlayerId,
             getPlayerById: getPlayerById,
             isGameEnded: isGameEnded,
@@ -18,7 +18,8 @@ define([], function() {
             start: start,
             nextDay: nextDay,
             behead: behead,
-            playActionCard: playActionCard
+            playActionCard: playActionCard,
+            getActivePlayer: getActivePlayer
         };
 
         function create() {
@@ -36,10 +37,6 @@ define([], function() {
             };
 
             return game;
-        }
-
-        function set(gameInstance) {
-            game = gameInstance;
         }
 
         function get() {
@@ -92,10 +89,10 @@ define([], function() {
             return getPlayerById(game.activePlayerId);
         }
 
-        function behead(count) {
+        function behead() {
             var activePlayer = getActivePlayer();
 
-            activePlayer.nobleCards.push(game.queue.splice(0, count).pop());
+            activePlayer.nobleCards.push(game.queue.splice(0, 1).pop());
             computeAllPoints();
 
             if (isDayEnded()) {
@@ -113,15 +110,20 @@ define([], function() {
             var activePlayer = getActivePlayer();
             var cardIndex = activePlayer.actionCards.indexOf(card);
 
-            EventService.apply(activePlayer, card);
-
             if(card.persistent) {
                 activePlayer.activeActionCards.push(card);
             } else {
+                callAction(card.action);
+
                 game.playedActionCards.push(card);
             }
 
             activePlayer.actionCards.splice(cardIndex, 1);
+            computeAllPoints();
+        }
+
+        function callAction(action) {
+            actions[action]();
         }
     }
 
