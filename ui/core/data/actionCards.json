@@ -4,7 +4,8 @@
         "name": "Revolte",
         "description": "Mische die ersten 5 Karten der Warteschlange.",
         "persistent": false,
-        "playableAfterLastDay": false
+        "playableAfterLastDay": false,
+        "action": "mixFirst5CardsOfQueue"
     },
     {
         "id": 2,
@@ -20,7 +21,6 @@
         "description": "Du bekommst 2 Extrapunkte.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "step": "afterCalculation",
         "action": "add2Points"
     },
     {
@@ -28,7 +28,8 @@
         "name": "Nachschub",
         "description": "Lege 3 Adlige an das Ende der Warteschlange.",
         "persistent": false,
-        "playableAfterLastDay": false
+        "playableAfterLastDay": false,
+        "action": "add3ToQueue"
     },
     {
         "id": 5,
@@ -48,8 +49,8 @@
         "id": 7,
         "name": "Die Mutige",
         "description": "Bewege Marie Antoinette an die Spitze der Warteschlange.",
-        "persistent": true,
-        "playableAfterLastDay": false
+        "playableAfterLastDay": false,
+        "action": "moveMarieToStart"
     },
     {
         "id": 8,
@@ -57,7 +58,6 @@
         "description": "Du erhältst für jeden roten Adligen einen Extrapunkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "step": "afterCalculation",
         "action": "add1PointPerRedNoble"
     },
     {
@@ -66,7 +66,6 @@
         "description": "Du erhältst für jeden blauen Adligen einen Extrapunkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "step": "afterCalculation",
         "action": "add1PointPerBlueNoble"
     },
     {
@@ -75,7 +74,6 @@
         "description": "Du erhältst für jeden grünen Adligen einen Extrapunkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "step": "afterCalculation",
         "action": "add1PointPerGreenNoble"
     },
     {
@@ -84,7 +82,6 @@
         "description": "Du erhältst für jeden violetten Adligen einen Extrapunkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "step": "afterCalculation",
         "action": "add1PointPerVioletNoble"
     },
     {
@@ -93,28 +90,29 @@
         "description": "Jeder schwarze Adlige zählt einen Punkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "step": "afterCalculation",
         "action": "setBlackNoblePointsTo1"
     },
     {
         "id": 13,
         "name": "Umgedreht",
         "description": "Stelle die Guillotine an das andere Ende der Warteschlange.",
-        "persistent": false,
-        "playableAfterLastDay": false
+        "playableAfterLastDay": false,
+        "action": "reverseQueue"
     },
     {
         "id": 14,
         "name": "Adelsanwärter",
         "description": "Für jeden violetten geköpften Adligen darfst du eine Aktionskarte ziehen.",
         "persistent": true,
-        "playableAfterLastDay": false
+        "playableAfterLastDay": false,
+        "action": "drawActionCardOnBeheadForVioletNoble"
     },
     {
         "id": 15,
         "name": "Unglück",
         "description": "Du bekommst 2 Punkte abgezogen.",
         "persistent": true,
-        "playableAfterLastDay": true
+        "playableAfterLastDay": true,
+        "action": "sub2Points"
     }
 ]

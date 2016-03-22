@@ -4,7 +4,11 @@ define([], function() {
     function GameService(GAME_CONFIG, GameResource, StorageService, UuidService, PlayerService, CardService) {
         var game = {};
         var actions = {
-            behead1: behead
+            behead1: behead,
+            add3ToQueue: add3ToQueue,
+            mixFirst5CardsOfQueue: mixFirst5CardsOfQueue,
+            moveMarieToStart: moveMarieToStart,
+            reverseQueue: reverseQueue
         };
 
         return {
@@ -90,14 +94,38 @@ define([], function() {
         }
 
         function behead() {
-            var activePlayer = getActivePlayer();
-
-            activePlayer.nobleCards.push(game.queue.splice(0, 1).pop());
+            drawFromQueue();
+            drawFromActionCardStack();
             computeAllPoints();
 
             if (isDayEnded()) {
                 nextDay();
             }
+        }
+
+        function drawFromQueue() {
+            var activePlayer = getActivePlayer();
+            var nobleCards = CardService.draw(game.queue, 1);
+
+            activePlayer.nobleCards = Array.concat(activePlayer.nobleCards, nobleCards);
+
+            var hasActionCard = activePlayer.activeActionCards.some(function(actionCard) {
+                return actionCard.action === 'drawActionCardOnBeheadForVioletNoble';
+            });
+
+            var isViolet = nobleCards.some(function(nobleCard) {
+                return nobleCard.color === 'violet';
+            });
+
+            if (hasActionCard && isViolet) {
+                drawFromActionCardStack();
+            }
+        }
+
+        function drawFromActionCardStack() {
+            var activePlayer = getActivePlayer();
+
+            activePlayer.actionCards = Array.concat(activePlayer.actionCards, CardService.draw(game.actionCardStack, 1));
         }
 
         function computeAllPoints() {
@@ -124,6 +152,33 @@ define([], function() {
 
         function callAction(action) {
             actions[action]();
+        }
+
+        function add3ToQueue() {
+            game.queue = game.queue.concat(CardService.draw(game.nobleCardStack, 3));
+        }
+
+        function mixFirst5CardsOfQueue() {
+            var cards = game.queue.splice(0, 5);
+
+            CardService.mix(cards);
+
+            game.queue = cards.concat(game.queue);
+        }
+
+        function moveMarieToStart() {
+            game.queue.forEach(function(card, index) {
+                if (card.name === 'Marie Antoinette') {
+                    game.queue.splice(index, 1);
+                    game.queue.unshift(card);
+
+                    return;
+                }
+            });
+        }
+
+        function reverseQueue() {
+            game.queue = game.queue.reverse();
         }
     }
 

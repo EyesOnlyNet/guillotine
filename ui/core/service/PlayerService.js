@@ -9,7 +9,8 @@ define([], function() {
             add1PointPerBlueNoble: add1PointPerBlueNoble,
             add1PointPerGreenNoble: add1PointPerGreenNoble,
             add1PointPerVioletNoble: add1PointPerVioletNoble,
-            setBlackNoblePointsTo1: setBlackNoblePointsTo1
+            setBlackNoblePointsTo1: setBlackNoblePointsTo1,
+            sub2Points: sub2Points
         };
 
         return {
@@ -24,7 +25,6 @@ define([], function() {
                 points: 0,
                 nobleCards: [],
                 actionCards: [],
-                actionCardPlayed: false,
                 activeActionCards: []
             };
         }
@@ -50,6 +50,10 @@ define([], function() {
 
         function add2Points() {
             player.points += 2;
+        }
+
+        function sub2Points() {
+            player.points -= 2;
         }
 
         function adPointsPerNoble(cardColor) {

@@ -8,15 +8,13 @@ define([], function() {
         };
 
         function mix(cards) {
-            var random = cards.map(Math.random);
-
-            cards.sort(function(cardLeft, cardRight) {
-              return random[cardLeft.id] - random[cardRight.id];
+            cards.sort(function() {
+                return 0.5 - Math.random();
             });
         }
 
         function draw(stack, count) {
-            return (count > 0)
+            return (count > 0 && stack.length > 0)
                 ? stack.splice(0, count)
                 : [];
         }
