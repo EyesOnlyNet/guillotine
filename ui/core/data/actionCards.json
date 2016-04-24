@@ -36,7 +36,9 @@
         "name": "Freigang",
         "description": "Entferne einen beliebigen Adligen aus der Warteschlange.",
         "persistent": false,
-        "playableAfterLastDay": false
+        "playableAfterLastDay": false,
+        "interaction": "selectNobleFromQueue",
+        "action": "removeNobleFromQueue"
     },
     {
         "id": 6,

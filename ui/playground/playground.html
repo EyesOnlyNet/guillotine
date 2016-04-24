@@ -7,8 +7,8 @@
         <button class="btn btn-primary btn-lg" ng-if="!playVm.game.day" ng-click="playVm.start()">start</button>
     </div>
 
-    <div class="info-bar col-xs-11 text-right">
-        <div class="well well-sm">
+    <div class="info-bar col-xs-11">
+        <div class="well well-sm text-right">
             <ul class="list-inline player-list" ng-if="playVm.game.playerList">
                 <li class="player" ng-repeat="player in playVm.game.playerList">
                     <div class="compact panel panel-default"
@@ -40,13 +40,22 @@
                 </li>
             </ul>
         </div>
+
+        <div class="alert alert-{{playVm.message.type}}" ng-if="playVm.message">
+            {{playVm.message.text}}
+        </div>
     </div>
+
 </header>
 
 <div class="container">
+    <div class="row">
+        <div class="alert alert-info" ng-if="playVm.playedActionCard">{{ playVm.playedActionCard.description }}</div>
+    </div>
+
     <div class="row queue" ng-if="!playVm.detailPlayer">
-        <ul class="col-xs-12 list-inline" ng-if="playVm.game.queue" ng-click="playVm.behead()">
-            <li ng-repeat="card in playVm.game.queue">
+        <ul class="col-xs-12 list-inline" ng-if="playVm.game.queue">
+            <li ng-repeat="card in playVm.game.queue" ng-click="playVm.queueClicked(card)">
                 <div class="panel panel-default card" ng-class="card.color">
                     <div class="panel-heading">{{card.name}} ({{card.id}})</div>
                     <div class="panel-body">

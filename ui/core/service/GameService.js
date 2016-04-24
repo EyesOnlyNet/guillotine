@@ -8,7 +8,8 @@ define([], function() {
             add3ToQueue: add3ToQueue,
             mixFirst5CardsOfQueue: mixFirst5CardsOfQueue,
             moveMarieToStart: moveMarieToStart,
-            reverseQueue: reverseQueue
+            reverseQueue: reverseQueue,
+            removeNobleFromQueue: removeNobleFromQueue
         };
 
         return {
@@ -134,24 +135,19 @@ define([], function() {
             });
         }
 
-        function playActionCard(card) {
+        function playActionCard(card, options) {
             var activePlayer = getActivePlayer();
             var cardIndex = activePlayer.actionCards.indexOf(card);
 
             if(card.persistent) {
                 activePlayer.activeActionCards.push(card);
             } else {
-                callAction(card.action);
-
+                actions[card.action](options);
                 game.playedActionCards.push(card);
             }
 
             activePlayer.actionCards.splice(cardIndex, 1);
             computeAllPoints();
-        }
-
-        function callAction(action) {
-            actions[action]();
         }
 
         function add3ToQueue() {
@@ -179,6 +175,12 @@ define([], function() {
 
         function reverseQueue() {
             game.queue = game.queue.reverse();
+        }
+
+        function removeNobleFromQueue(nobleCard) {
+            var index = game.queue.indexOf(nobleCard);
+
+            game.removedNobleCards.push(game.queue.splice(index, 1));
         }
     }
 
