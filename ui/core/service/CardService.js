@@ -8,8 +8,17 @@ define([], function() {
         };
 
         function mix(cards) {
-            cards.sort(function() {
-                return 0.5 - Math.random();
+            var mixedCards = [];
+
+            while (cards.length) {
+                var indexCards = Math.floor(Math.random() * cards.length);
+                var indexMixedCards = Math.floor(Math.random() * mixedCards.length);
+
+                mixedCards.splice(indexMixedCards, 0, cards.splice(indexCards, 1).pop());
+            }
+
+            mixedCards.forEach(function(card) {
+                cards.push(card);
             });
         }
 

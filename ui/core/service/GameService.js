@@ -9,7 +9,11 @@ define([], function() {
             mixFirst5CardsOfQueue: mixFirst5CardsOfQueue,
             moveMarieToStart: moveMarieToStart,
             reverseQueue: reverseQueue,
-            removeNobleFromQueue: removeNobleFromQueue
+            removeNobleFromQueue: removeNobleFromQueue,
+            endDay: endDay,
+            draw1ActionCard: draw1ActionCard,
+            drawActionCardOnBeheadForVioletNoble: drawActionCardOnBeheadForVioletNoble,
+            draw1FromNobleStack: draw1FromNobleStack
         };
 
         return {
@@ -92,6 +96,7 @@ define([], function() {
 
         function nextDay() {
             game.day += 1;
+            game.removedNobleCards = game.removedNobleCards.concat(game.queue);
             game.queue = CardService.draw(game.nobleCardStack, GAME_CONFIG.queueLength);
         }
 
@@ -112,19 +117,18 @@ define([], function() {
             var activePlayer = getActivePlayer();
             var nobleCards = CardService.draw(game.queue, 1);
 
-            activePlayer.nobleCards = Array.concat(activePlayer.nobleCards, nobleCards);
+            activePlayer.nobleCards = Array.concat(
+                activePlayer.nobleCards,
+                nobleCards
+            );
 
-            var hasActionCard = activePlayer.activeActionCards.some(function(actionCard) {
-                return actionCard.action === 'drawActionCardOnBeheadForVioletNoble';
+            nobleCards.forEach(function(card) {
+                callAction(card.action, card);
             });
 
-            var isViolet = nobleCards.some(function(nobleCard) {
-                return nobleCard.color === 'violet';
+            activePlayer.activeActionCards.forEach(function(card) {
+                callAction(card.action, nobleCards);
             });
-
-            if (hasActionCard && isViolet) {
-                drawFromActionCardStack();
-            }
         }
 
         function drawFromActionCardStack() {
@@ -133,6 +137,15 @@ define([], function() {
             activePlayer.actionCards = Array.concat(
                 activePlayer.actionCards,
                 CardService.draw(game.actionCardStack, 1)
+            );
+        }
+
+        function drawFromNobleCardStack() {
+            var activePlayer = getActivePlayer();
+
+            activePlayer.nobleCards = Array.concat(
+                activePlayer.nobleCards,
+                CardService.draw(game.nobleCardStack, 1)
             );
         }
 
@@ -159,12 +172,20 @@ define([], function() {
             if(card.persistent) {
                 activePlayer.activeActionCards.push(card);
             } else {
-                actions[card.action](options);
+                callAction(card.action, options);
                 game.playedActionCards.push(card);
             }
 
             activePlayer.actionCards.splice(cardIndex, 1);
             computeAllPoints();
+
+            moveMasterSpyToQueueEnd();
+        }
+
+        function callAction(action, options) {
+            if (angular.isDefined(actions[action])) {
+                actions[action](options);
+            }
         }
 
         function removeActionCard(player, card) {
@@ -196,6 +217,17 @@ define([], function() {
             });
         }
 
+        function moveMasterSpyToQueueEnd() {
+            game.queue.forEach(function(card, index) {
+                if (card.action === 'onPlayedActionCardMoveSelfToQueueEnd') {
+                    game.queue.splice(index, 1);
+                    game.queue.push(card);
+
+                    return;
+                }
+            });
+        }
+
         function reverseQueue() {
             game.queue = game.queue.reverse();
         }
@@ -204,6 +236,26 @@ define([], function() {
             var index = game.queue.indexOf(nobleCard);
 
             game.removedNobleCards.push(game.queue.splice(index, 1));
+        }
+
+        function endDay() {
+            nextDay();
+        }
+
+        function draw1ActionCard() {
+            drawFromActionCardStack();
+        }
+
+        function drawActionCardOnBeheadForVioletNoble(beheadCards) {
+            beheadCards.forEach(function(card) {
+                if (card.color === 'violet') {
+                    drawFromActionCardStack();
+                }
+            });
+        }
+
+        function draw1FromNobleStack() {
+            drawFromNobleCardStack();
         }
     }
 

@@ -67,6 +67,10 @@ define([], function () {
         }
 
         function isActionCardPlayable(card) {
+            if (areActionCardsBlockedByQueue()) {
+                return false;
+            }
+
             if (isQueueChangingCard(card) && isQueueBlocked()) {
                 return false;
             }
@@ -82,6 +86,10 @@ define([], function () {
             }
 
             return true;
+        }
+
+        function areActionCardsBlockedByQueue() {
+            return vm.game.queue[0].action === 'blockActionCards';
         }
 
         function isQueueChangingCard(card) {

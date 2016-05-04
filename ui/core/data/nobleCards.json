@@ -21,19 +21,22 @@
         "id": 4,
         "name": "Hofdame",
         "color": "violet",
-        "points": 1
+        "points": 1,
+        "action": "draw1ActionCard"
     },
     {
         "id": 5,
         "name": "Lord",
         "color": "violet",
-        "points": 2
+        "points": 2,
+        "action": "draw1ActionCard"
     },
     {
         "id": 6,
         "name": "Lady",
         "color": "violet",
-        "points": 2
+        "points": 2,
+        "action": "draw1ActionCard"
     },
     {
         "id": 7,
@@ -71,7 +74,8 @@
         "id": 12,
         "name": "Robespierre",
         "color": "violet",
-        "points": 3
+        "points": 3,
+        "action": "endDay"
     },
     {
         "id": 13,
@@ -160,7 +164,8 @@
         "id": 26,
         "name": "Meisterspion",
         "color": "red",
-        "points": 4
+        "points": 4,
+        "action": "onPlayedActionCardMoveSelfToQueueEnd"
     },
     {
         "id": 27,
@@ -209,7 +214,8 @@
         "id": 34,
         "name": "Henkersknecht",
         "color": "green",
-        "points": 1
+        "points": 1,
+        "action": "draw1FromNobleStack"
     },
     {
         "id": 35,
@@ -227,13 +233,15 @@
         "id": 37,
         "name": "Unbeliebter Richter",
         "color": "green",
-        "points": 2
+        "points": 2,
+        "action": "blockActionCards"
     },
     {
         "id": 38,
         "name": "Unbeliebter Richter",
         "color": "green",
-        "points": 2
+        "points": 2,
+        "action": "blockActionCards"
     },
     {
         "id": 39,
