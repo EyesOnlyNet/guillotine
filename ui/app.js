@@ -23,7 +23,7 @@ define(function (require) {
     });
     app.constant('GAME_CONFIG', {
         actionCardsPerPlayer: 5,
-        queueLength: 16,
+        queueLength: 12,
         days: 2,
         actionCards: require('json!core/data/actionCards.json'),
         nobleCards: require('json!core/data/nobleCards.json')

@@ -1,7 +1,9 @@
-define([], function() {
+define([], function () {
     'use strict';
 
     function PlayerService(UuidService) {
+        var countId = 7, countessId = 8, guardIds = [16, 17, 18, 19, 20], tragicNobleId = 27;
+
         var player = {};
         var actions = {
             add2Points: add2Points,
@@ -10,7 +12,10 @@ define([], function() {
             add1PointPerGreenNoble: add1PointPerGreenNoble,
             add1PointPerVioletNoble: add1PointPerVioletNoble,
             setBlackNoblePointsTo1: setBlackNoblePointsTo1,
-            sub2Points: sub2Points
+            sub2Points: sub2Points,
+            addPointsForGuards: addPointsForGuards,
+            addPointsForTragicNoble: addPointsForTragicNoble,
+            addPointsForCountAndCountess: addPointsForCountAndCountess
         };
 
         return {
@@ -33,12 +38,20 @@ define([], function() {
             player = playerInstance;
             player.points = 0;
 
-            player.nobleCards.forEach(function(card) {
-                player.points += card.points;
+            sumCardPoints();
+
+            player.nobleCards.forEach(function (card) {
+                callAction(card.action);
             });
 
-            player.activeActionCards.forEach(function(card) {
+            player.activeActionCards.forEach(function (card) {
                 callAction(card.action);
+            });
+        }
+
+        function sumCardPoints() {
+            player.nobleCards.forEach(function (card) {
+                player.points += card.points;
             });
         }
 
@@ -56,34 +69,64 @@ define([], function() {
             player.points -= 2;
         }
 
-        function adPointsPerNoble(cardColor) {
-            player.points += player.nobleCards.filter(function(card) {
-                return card.color === cardColor;
-            }).length;
+        function addPointsPerNoble(points, cardColor) {
+            player.nobleCards.forEach(function (card) {
+                if (card.color === cardColor) {
+                    player.points += points;
+                }
+            });
         }
 
         function add1PointPerRedNoble() {
-            adPointsPerNoble('red');
+            addPointsPerNoble(1, 'red');
         }
 
         function add1PointPerBlueNoble() {
-            adPointsPerNoble('blue');
+            addPointsPerNoble(1, 'blue');
         }
 
         function add1PointPerGreenNoble() {
-            adPointsPerNoble('green');
+            addPointsPerNoble(1, 'green');
         }
 
         function add1PointPerVioletNoble() {
-            adPointsPerNoble('violet');
+            addPointsPerNoble(1, 'violet');
         }
 
         function setBlackNoblePointsTo1() {
-            player.nobleCards.forEach(function(card) {
-                if(card.color === 'black') {
+            player.nobleCards.forEach(function (card) {
+                if (card.color === 'black') {
                     player.points += (card.points * -1) + 1;
                 }
             });
+        }
+
+        function addPointsForGuards() {
+            player.nobleCards.forEach(function (card) {
+                if (guardIds.indexOf(card.id) !== -1) {
+                    player.points += 1;
+                }
+            });
+        }
+
+        function addPointsForTragicNoble() {
+            player.nobleCards.forEach(function (card) {
+                if (card.color === 'black') {
+                    player.points -= 1;
+                }
+            });
+        }
+
+        function addPointsForCountAndCountess() {
+            var hasCountAndCountess = [countId, countessId].every(function(id) {
+                return player.nobleCards.some(function(card) {
+                    return card.id === id;
+                });
+            });
+
+            if (hasCountAndCountess) {
+                player.points += 2;
+            }
         }
     }
 

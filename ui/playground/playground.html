@@ -53,8 +53,10 @@
         <div class="alert alert-info" ng-if="playVm.playedActionCard">{{ playVm.playedActionCard.description }}</div>
     </div>
 
-    <div class="row queue" ng-if="!playVm.detailPlayer">
+    <div class="row queue">
         <ul class="col-xs-12 list-inline" ng-if="playVm.game.queue">
+            <li class="guillotine" ng-click="playVm.behead()"></li>
+
             <li ng-repeat="card in playVm.game.queue" ng-click="playVm.queueClicked(card)">
                 <div class="panel panel-default card" ng-class="card.color">
                     <div class="panel-heading">{{card.name}} ({{card.id}})</div>
@@ -75,13 +77,15 @@
             </h2>
         </div>
 
-        <div class="action-cards col-xs-6" ng-if="playVm.me.id === playVm.detailPlayer.id && playVm.detailPlayer.actionCards.length">
+        <div class="action-cards col-xs-6"
+             ng-if="playVm.me.id === playVm.detailPlayer.id && playVm.detailPlayer.actionCards.length">
             <h2 class="heading">Hand-Aktionskarten</h2>
 
             <div class="list-group">
                 <a href="#" class="list-group-item"
                    ng-repeat="card in playVm.detailPlayer.actionCards"
-                   ng-click="playVm.playActionCard(card)">
+                   ng-click="playVm.playActionCard(card)"
+                   ng-class="{ 'disabled': !playVm.isActionCardPlayable(card) }">
                     <h3 class="list-group-item-heading">{{card.name}} ({{card.id}})</h3>
                     <p>{{card.description}}</p>
                 </a>
@@ -92,7 +96,11 @@
             <h2 class="heading">Aktionskarten-Effekte</h2>
 
             <div class="list-group">
-                <div class="list-group-item" ng-repeat="card in playVm.detailPlayer.activeActionCards">
+                <div class="list-group-item"
+                     ng-repeat="card in playVm.detailPlayer.activeActionCards">
+                    <i class="glyphicon glyphicon-trash"
+                       ng-click="playVm.removeActiveActionCard(card)"
+                       ng-if="card.removable"></i>
                     <h3 class="list-group-item-heading">{{card.name}} ({{card.id}})</h3>
                     <p>{{card.description}}</p>
                 </div>

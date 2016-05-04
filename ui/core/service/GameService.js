@@ -2,7 +2,7 @@ define([], function() {
     'use strict';
 
     function GameService(GAME_CONFIG, GameResource, StorageService, UuidService, PlayerService, CardService) {
-        var game = {};
+        var game;
         var actions = {
             behead1: behead,
             add3ToQueue: add3ToQueue,
@@ -23,8 +23,11 @@ define([], function() {
             start: start,
             nextDay: nextDay,
             behead: behead,
+            drawFromActionCardStack: drawFromActionCardStack,
             playActionCard: playActionCard,
-            getActivePlayer: getActivePlayer
+            removeActionCard: removeActionCard,
+            getActivePlayer: getActivePlayer,
+            getActiveActionCards: getActiveActionCards
         };
 
         function create() {
@@ -45,11 +48,13 @@ define([], function() {
         }
 
         function get() {
-            return game;
+            return game || load() || create();
         }
 
         function load() {
             game = StorageService.getGame();
+
+            return game;
         }
 
         function loadByPlayerId(playerId) {
@@ -96,7 +101,6 @@ define([], function() {
 
         function behead() {
             drawFromQueue();
-            drawFromActionCardStack();
             computeAllPoints();
 
             if (isDayEnded()) {
@@ -126,12 +130,25 @@ define([], function() {
         function drawFromActionCardStack() {
             var activePlayer = getActivePlayer();
 
-            activePlayer.actionCards = Array.concat(activePlayer.actionCards, CardService.draw(game.actionCardStack, 1));
+            activePlayer.actionCards = Array.concat(
+                activePlayer.actionCards,
+                CardService.draw(game.actionCardStack, 1)
+            );
         }
 
         function computeAllPoints() {
             game.playerList.forEach(function(player) {
                 PlayerService.computePoints(player);
+            });
+        }
+
+        function getActiveActionCards() {
+            var getActiveCards = function(player) {
+                return player.activeActionCards;
+            };
+
+            return game.playerList.map(getActiveCards).reduce(function(a, b) {
+                return a.concat(b);
             });
         }
 
@@ -148,6 +165,12 @@ define([], function() {
 
             activePlayer.actionCards.splice(cardIndex, 1);
             computeAllPoints();
+        }
+
+        function removeActionCard(player, card) {
+            var index = player.activeActionCards.indexOf(card);
+
+            player.activeActionCards.splice(index, 1);
         }
 
         function add3ToQueue() {

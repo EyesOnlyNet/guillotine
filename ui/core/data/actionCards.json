@@ -3,16 +3,12 @@
         "id": 1,
         "name": "Revolte",
         "description": "Mische die ersten 5 Karten der Warteschlange.",
-        "persistent": false,
-        "playableAfterLastDay": false,
         "action": "mixFirst5CardsOfQueue"
     },
     {
         "id": 2,
         "name": "Doppelkopf",
         "description": "Köpfe den Ersten der Warteschlange.",
-        "persistent": false,
-        "playableAfterLastDay": false,
         "action": "behead1"
     },
     {
@@ -27,16 +23,12 @@
         "id": 4,
         "name": "Nachschub",
         "description": "Lege 3 Adlige an das Ende der Warteschlange.",
-        "persistent": false,
-        "playableAfterLastDay": false,
         "action": "add3ToQueue"
     },
     {
         "id": 5,
         "name": "Freigang",
         "description": "Entferne einen beliebigen Adligen aus der Warteschlange.",
-        "persistent": false,
-        "playableAfterLastDay": false,
         "interaction": "selectNobleFromQueue",
         "action": "removeNobleFromQueue"
     },
@@ -45,13 +37,12 @@
         "name": "Furchtlos",
         "description": "Die Reihenfolge der Warteschlange darf solange nicht verändert werden, wie diese Karte ausgespielt ist.",
         "persistent": true,
-        "playableAfterLastDay": false
+        "removable": true
     },
     {
         "id": 7,
         "name": "Die Mutige",
         "description": "Bewege Marie Antoinette an die Spitze der Warteschlange.",
-        "playableAfterLastDay": false,
         "action": "moveMarieToStart"
     },
     {
@@ -98,7 +89,6 @@
         "id": 13,
         "name": "Umgedreht",
         "description": "Stelle die Guillotine an das andere Ende der Warteschlange.",
-        "playableAfterLastDay": false,
         "action": "reverseQueue"
     },
     {
@@ -106,7 +96,6 @@
         "name": "Adelsanwärter",
         "description": "Für jeden violetten geköpften Adligen darfst du eine Aktionskarte ziehen.",
         "persistent": true,
-        "playableAfterLastDay": false,
         "action": "drawActionCardOnBeheadForVioletNoble"
     },
     {

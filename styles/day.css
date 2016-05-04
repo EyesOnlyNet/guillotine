@@ -58,6 +58,14 @@
     font-weight: bold;
 }
 
+.guillotine {
+    background-image: url("/images/guilotine.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 100px;
+}
+
 .queue {
     margin-left: 0;
 }
@@ -157,4 +165,13 @@
     right: -15px;
     top: -10px;
     z-index: 1;
+}
+
+.container .detail .glyphicon-trash {
+    background-color: white;
+    cursor: pointer;
+    font-size: 18px;
+    position: absolute;
+    right: 6px;
+    top: 8px;
 }
