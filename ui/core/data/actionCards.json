@@ -3,13 +3,15 @@
         "id": 1,
         "name": "Revolte",
         "description": "Mische die ersten 5 Karten der Warteschlange.",
-        "action": "mixFirst5CardsOfQueue"
+        "action": "mixFirst5CardsOfQueue",
+        "strategy": "direct"
     },
     {
         "id": 2,
         "name": "Doppelkopf",
         "description": "Köpfe den Ersten der Warteschlange.",
-        "action": "behead1"
+        "action": "behead1",
+        "strategy": "direct"
     },
     {
         "id": 3,
@@ -17,33 +19,39 @@
         "description": "Du bekommst 2 Extrapunkte.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "action": "add2Points"
+        "action": "add2Points",
+        "strategy": "direct"
     },
     {
         "id": 4,
         "name": "Nachschub",
         "description": "Lege 3 Adlige an das Ende der Warteschlange.",
-        "action": "add3ToQueue"
+        "action": "add3ToQueue",
+        "strategy": "direct"
     },
     {
         "id": 5,
         "name": "Freigang",
         "description": "Entferne einen beliebigen Adligen aus der Warteschlange.",
         "interaction": "selectNobleFromQueue",
-        "action": "removeNobleFromQueue"
+        "action": "removeNobleFromQueue",
+        "strategy": "direct"
     },
     {
         "id": 6,
         "name": "Furchtlos",
         "description": "Die Reihenfolge der Warteschlange darf solange nicht verändert werden, wie diese Karte ausgespielt ist.",
         "persistent": true,
-        "removable": true
+        "removable": true,
+        "action": "blockQueue",
+        "strategy": "direct"
     },
     {
         "id": 7,
         "name": "Die Mutige",
         "description": "Bewege Marie Antoinette an die Spitze der Warteschlange.",
-        "action": "moveMarieToStart"
+        "action": "moveMarieToStart",
+        "strategy": "direct"
     },
     {
         "id": 8,
@@ -51,7 +59,8 @@
         "description": "Du erhältst für jeden roten Adligen einen Extrapunkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "action": "add1PointPerRedNoble"
+        "action": "add1PointPerRedNoble",
+        "strategy": "direct"
     },
     {
         "id": 9,
@@ -59,7 +68,8 @@
         "description": "Du erhältst für jeden blauen Adligen einen Extrapunkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "action": "add1PointPerBlueNoble"
+        "action": "add1PointPerBlueNoble",
+        "strategy": "direct"
     },
     {
         "id": 10,
@@ -67,7 +77,8 @@
         "description": "Du erhältst für jeden grünen Adligen einen Extrapunkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "action": "add1PointPerGreenNoble"
+        "action": "add1PointPerGreenNoble",
+        "strategy": "direct"
     },
     {
         "id": 11,
@@ -75,7 +86,8 @@
         "description": "Du erhältst für jeden violetten Adligen einen Extrapunkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "action": "add1PointPerVioletNoble"
+        "action": "add1PointPerVioletNoble",
+        "strategy": "direct"
     },
     {
         "id": 12,
@@ -83,20 +95,23 @@
         "description": "Jeder schwarze Adlige zählt einen Punkt.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "action": "setBlackNoblePointsTo1"
+        "action": "setBlackNoblePointsTo1",
+        "strategy": "direct"
     },
     {
         "id": 13,
         "name": "Umgedreht",
         "description": "Stelle die Guillotine an das andere Ende der Warteschlange.",
-        "action": "reverseQueue"
+        "action": "reverseQueue",
+        "strategy": "direct"
     },
     {
         "id": 14,
         "name": "Adelsanwärter",
         "description": "Für jeden violetten geköpften Adligen darfst du eine Aktionskarte ziehen.",
         "persistent": true,
-        "action": "drawActionCardOnBeheadForVioletNoble"
+        "action": "draw1ActionCardForVioletNoble",
+        "strategy": "afterBehead"
     },
     {
         "id": 15,
@@ -104,6 +119,49 @@
         "description": "Du bekommst 2 Punkte abgezogen.",
         "persistent": true,
         "playableAfterLastDay": true,
-        "action": "sub2Points"
+        "action": "sub2Points",
+        "strategy": "direct"
+    },
+    {
+        "id": 16,
+        "name": "Regenpause",
+        "description": "Mische die Handkarten aller Spieler in den Aktionsstapel. Danach erhält jeder Spieler 5 neue Karten.",
+        "action": "resetActionCards",
+        "strategy": "direct"
+    },
+    {
+        "id": 17,
+        "name": "Scharlachroter Rächer",
+        "description": "Am Ende deines Zuges endet der Tag. Die Adligen in der Reihe kommen auf den Ablagestapel.",
+        "action": "endDay",
+        "strategy": "onEndOfTurn"
+    },
+    {
+        "id": 18,
+        "name": "Politischer Einfluss",
+        "description": "Ziehe 3 Aktionskarten, dafür darfst du keinen Adligen köpfen",
+        "action": "draw3ActionCardsAndEndTurn",
+        "strategy": "direct"
+    },
+    {
+        "id": 19,
+        "name": "Mangel an Glauben",
+        "description": "Bewege den vordersten blauen Adligen in der Reihe an die Spitze.",
+        "action": "moveFirstBlueToFrontOfQueue",
+        "strategy": "direct"
+    },
+    {
+        "id": 20,
+        "name": "Große Verwirrung",
+        "description": "Mische alle Karten der Reihe in den Adelsstapel und lege die gleiche Anzahl wieder in eine Reihe.",
+        "action": "remixQueue",
+        "strategy": "direct"
+    },
+    {
+        "id": 21,
+        "name": "Bestechung",
+        "description": "Bewege den Adligen von der Spitze an das Ende der Reihe.",
+        "action": "moveFirstToEnd",
+        "strategy": "direct"
     }
 ]

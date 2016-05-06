@@ -1,19 +1,25 @@
-define([], function() {
+define([], function () {
     'use strict';
 
     function GameService(GAME_CONFIG, GameResource, StorageService, UuidService, PlayerService, CardService) {
         var game;
         var actions = {
             behead1: behead,
+            add1ToQueue: add1ToQueue,
             add3ToQueue: add3ToQueue,
             mixFirst5CardsOfQueue: mixFirst5CardsOfQueue,
+            remixQueue: remixQueue,
             moveMarieToStart: moveMarieToStart,
+            moveFirstBlueToFrontOfQueue: moveFirstBlueToFrontOfQueue,
+            moveFirstToEnd: moveFirstNobleToEnd,
             reverseQueue: reverseQueue,
             removeNobleFromQueue: removeNobleFromQueue,
             endDay: endDay,
             draw1ActionCard: draw1ActionCard,
-            drawActionCardOnBeheadForVioletNoble: drawActionCardOnBeheadForVioletNoble,
-            draw1FromNobleStack: draw1FromNobleStack
+            draw1FromNobleStack: draw1FromNobleStack,
+            resetActionCards: resetActionCards,
+            draw3ActionCardsAndEndTurn: draw3ActionCardsAndEndTurn,
+            draw1ActionCardForVioletNoble: draw1ActionCardForVioletNoble
         };
 
         return {
@@ -25,6 +31,7 @@ define([], function() {
             isGameEnded: isGameEnded,
             isDayEnded: isDayEnded,
             start: start,
+            nextPlayer: nextPlayer,
             nextDay: nextDay,
             behead: behead,
             drawFromActionCardStack: drawFromActionCardStack,
@@ -66,7 +73,7 @@ define([], function() {
         }
 
         function getPlayerById(id) {
-            return game.playerList.filter(function(player) {
+            return game.playerList.filter(function (player) {
                 return player.id === id;
             }).pop();
         }
@@ -89,8 +96,24 @@ define([], function() {
 
             game.queue = CardService.draw(game.nobleCardStack, GAME_CONFIG.queueLength);
 
-            game.playerList.forEach(function(player) {
-                player.actionCards = CardService.draw(game.actionCardStack, GAME_CONFIG.actionCardsPerPlayer);
+            initPlayersWithActionCards();
+        }
+
+        function initPlayersWithActionCards() {
+            game.playerList.forEach(function (player) {
+                player.actionCards = CardService.draw(
+                    game.actionCardStack,
+                    GAME_CONFIG.actionCardsPerPlayer
+                );
+            });
+        }
+
+        function nextPlayer() {
+            getActivePlayer().activeActionCards.forEach(function(card) {
+                if (card.strategy === 'onEndOfTurn') {
+                    callAction(card.action);
+                    game.playedActionCards.push(card);
+                }
             });
         }
 
@@ -122,21 +145,25 @@ define([], function() {
                 nobleCards
             );
 
-            nobleCards.forEach(function(card) {
-                callAction(card.action, card);
+            nobleCards.forEach(function (card) {
+                if (card.strategy === 'afterBehead') {
+                    callAction(card.action, card);
+                }
             });
 
-            activePlayer.activeActionCards.forEach(function(card) {
-                callAction(card.action, nobleCards);
+            activePlayer.activeActionCards.forEach(function (card) {
+                if (card.strategy === 'afterBehead') {
+                    callAction(card.action, nobleCards);
+                }
             });
         }
 
-        function drawFromActionCardStack() {
+        function drawFromActionCardStack(count) {
             var activePlayer = getActivePlayer();
 
             activePlayer.actionCards = Array.concat(
                 activePlayer.actionCards,
-                CardService.draw(game.actionCardStack, 1)
+                CardService.draw(game.actionCardStack, count)
             );
         }
 
@@ -150,41 +177,47 @@ define([], function() {
         }
 
         function computeAllPoints() {
-            game.playerList.forEach(function(player) {
+            game.playerList.forEach(function (player) {
                 PlayerService.computePoints(player);
             });
         }
 
         function getActiveActionCards() {
-            var getActiveCards = function(player) {
+            var getActiveCards = function (player) {
                 return player.activeActionCards;
             };
 
-            return game.playerList.map(getActiveCards).reduce(function(a, b) {
-                return a.concat(b);
-            });
+            var concatCards = function(stack1, stack2) {
+                return stack1.concat(stack2);
+            }
+
+            return game.playerList.map(getActiveCards).reduce(concatCards);
         }
 
         function playActionCard(card, options) {
             var activePlayer = getActivePlayer();
             var cardIndex = activePlayer.actionCards.indexOf(card);
 
-            if(card.persistent) {
+            activePlayer.actionCards.splice(cardIndex, 1);
+
+            if (card.persistent || card.strategy === 'onEndOfTurn') {
                 activePlayer.activeActionCards.push(card);
-            } else {
+            } else if (card.strategy === 'direct') {
                 callAction(card.action, options);
                 game.playedActionCards.push(card);
             }
 
-            activePlayer.actionCards.splice(cardIndex, 1);
             computeAllPoints();
 
-            moveMasterSpyToQueueEnd();
+            moveNoblesToEndOfQueue();
         }
 
         function callAction(action, options) {
             if (angular.isDefined(actions[action])) {
+                console.info(action);
                 actions[action](options);
+            } else {
+                console.warn(action + ' is not defined.');
             }
         }
 
@@ -194,8 +227,18 @@ define([], function() {
             player.activeActionCards.splice(index, 1);
         }
 
+        function add1ToQueue() {
+            game.queue = Array.concat(
+                game.queue,
+                CardService.draw(game.nobleCardStack, 1)
+            );
+        }
+
         function add3ToQueue() {
-            game.queue = game.queue.concat(CardService.draw(game.nobleCardStack, 3));
+            game.queue = Array.concat(
+                game.queue,
+                CardService.draw(game.nobleCardStack, 3)
+            );
         }
 
         function mixFirst5CardsOfQueue() {
@@ -203,11 +246,24 @@ define([], function() {
 
             CardService.mix(cards);
 
-            game.queue = cards.concat(game.queue);
+            game.queue = Array.concat(cards, game.queue);
+        }
+
+        function remixQueue() {
+            var count = game.queue.length;
+
+            game.nobleCardStack = Array.concat(
+                game.nobleCardStack,
+                game.queue
+            );
+
+            CardService.mix(game.nobleCardStack);
+
+            game.queue = CardService.draw(game.nobleCardStack, count);
         }
 
         function moveMarieToStart() {
-            game.queue.forEach(function(card, index) {
+            game.queue.forEach(function (card, index) {
                 if (card.name === 'Marie Antoinette') {
                     game.queue.splice(index, 1);
                     game.queue.unshift(card);
@@ -217,9 +273,26 @@ define([], function() {
             });
         }
 
-        function moveMasterSpyToQueueEnd() {
-            game.queue.forEach(function(card, index) {
-                if (card.action === 'onPlayedActionCardMoveSelfToQueueEnd') {
+        function moveFirstBlueToFrontOfQueue() {
+            game.queue.forEach(function (card, index) {
+                if (card.color === 'blue') {
+                    game.queue.splice(index, 1);
+                    game.queue.unshift(card);
+
+                    return;
+                }
+            });
+        }
+
+        function moveFirstNobleToEnd() {
+            var card = game.queue.splice(0, 1);
+
+            game.queue = Array.concat(game.queue, card);
+        }
+
+        function moveNoblesToEndOfQueue() {
+            game.queue.forEach(function (card, index) {
+                if (card.action === 'moveSelfToEndOfQueue') {
                     game.queue.splice(index, 1);
                     game.queue.push(card);
 
@@ -243,19 +316,37 @@ define([], function() {
         }
 
         function draw1ActionCard() {
-            drawFromActionCardStack();
+            drawFromActionCardStack(1);
         }
 
-        function drawActionCardOnBeheadForVioletNoble(beheadCards) {
-            beheadCards.forEach(function(card) {
+        function draw1ActionCardForVioletNoble(beheadCards) {
+            beheadCards.forEach(function (card) {
                 if (card.color === 'violet') {
-                    drawFromActionCardStack();
+                    drawFromActionCardStack(1);
                 }
             });
         }
 
         function draw1FromNobleStack() {
             drawFromNobleCardStack();
+        }
+
+        function resetActionCards() {
+            game.playerList.forEach(function (player) {
+                game.actionCardStack = Array.concat(
+                    game.actionCardStack,
+                    CardService.draw(player.actionCards, player.actionCards.length)
+                );
+            });
+
+            CardService.mix(game.actionCardStack);
+
+            initPlayersWithActionCards();
+        }
+
+        function draw3ActionCardsAndEndTurn() {
+            drawFromActionCardStack(3);
+            nextPlayer();
         }
     }
 

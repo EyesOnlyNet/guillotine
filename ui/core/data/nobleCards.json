@@ -22,41 +22,48 @@
         "name": "Hofdame",
         "color": "violet",
         "points": 1,
-        "action": "draw1ActionCard"
+        "action": "draw1ActionCard",
+        "strategy": "afterBehead"
     },
     {
         "id": 5,
         "name": "Lord",
         "color": "violet",
         "points": 2,
-        "action": "draw1ActionCard"
+        "action": "draw1ActionCard",
+        "strategy": "afterBehead"
     },
     {
         "id": 6,
         "name": "Lady",
         "color": "violet",
         "points": 2,
-        "action": "draw1ActionCard"
+        "action": "draw1ActionCard",
+        "strategy": "afterBehead"
     },
     {
         "id": 7,
         "name": "Graf",
         "color": "violet",
         "points": 2,
-        "action": "addPointsForCountAndCountess"
+        "action": "addPointsForCountAndCountess",
+        "strategy": "direct"
     },
     {
         "id": 8,
         "name": "Gräfin",
         "color": "violet",
         "points": 2,
-        "action": "addPointsForCountAndCountess"
+        "action": "addPointsForCountAndCountess",
+        "strategy": "direct"
     },
     {
         "id": 9,
         "name": "Flotter Fürst",
         "color": "violet",
-        "points": 2
+        "points": 2,
+        "action": "behead1",
+        "strategy": "afterBehead"
     },
     {
         "id": 10,
@@ -75,7 +82,8 @@
         "name": "Robespierre",
         "color": "violet",
         "points": 3,
-        "action": "endDay"
+        "action": "endDay",
+        "strategy": "afterBehead"
     },
     {
         "id": 13,
@@ -100,35 +108,40 @@
         "name": "Palastwache 1",
         "color": "red",
         "points": 0,
-        "action": "addPointsForGuards"
+        "action": "addPointsForGuards",
+        "strategy": "direct"
     },
     {
         "id": 17,
         "name": "Palastwache 2",
         "color": "red",
         "points": 0,
-        "action": "addPointsForGuards"
+        "action": "addPointsForGuards",
+        "strategy": "direct"
     },
     {
         "id": 18,
         "name": "Palastwache 3",
         "color": "red",
         "points": 0,
-        "action": "addPointsForGuards"
+        "action": "addPointsForGuards",
+        "strategy": "direct"
     },
     {
         "id": 19,
         "name": "Palastwache 4",
         "color": "red",
         "points": 0,
-        "action": "addPointsForGuards"
+        "action": "addPointsForGuards",
+        "strategy": "direct"
     },
     {
         "id": 20,
         "name": "Palastwache 5",
         "color": "red",
         "points": 0,
-        "action": "addPointsForGuards"
+        "action": "addPointsForGuards",
+        "strategy": "direct"
     },
     {
         "id": 21,
@@ -146,7 +159,9 @@
         "id": 23,
         "name": "Hauptmann der Wache",
         "color": "red",
-        "points": 2
+        "points": 2,
+        "action": "add1ToQueue",
+        "strategy": "afterBehead"
     },
     {
         "id": 24,
@@ -158,21 +173,25 @@
         "id": 25,
         "name": "General",
         "color": "red",
-        "points": 4
+        "points": 4,
+        "action": "add1ToQueue",
+        "strategy": "afterBehead"
     },
     {
         "id": 26,
         "name": "Meisterspion",
         "color": "red",
         "points": 4,
-        "action": "onPlayedActionCardMoveSelfToQueueEnd"
+        "action": "moveSelfToEndOfQueue",
+        "strategy": "afterPlayedActionCart"
     },
     {
         "id": 27,
         "name": "Tragische Figur",
         "color": "black",
         "points": 0,
-        "action": "addPointsForTragicNoble"
+        "action": "addPointsForTragicNoble",
+        "strategy": "direct"
     },
     {
         "id": 28,
@@ -215,7 +234,8 @@
         "name": "Henkersknecht",
         "color": "green",
         "points": 1,
-        "action": "draw1FromNobleStack"
+        "action": "draw1FromNobleStack",
+        "strategy": "afterBehead"
     },
     {
         "id": 35,
@@ -234,14 +254,16 @@
         "name": "Unbeliebter Richter",
         "color": "green",
         "points": 2,
-        "action": "blockActionCards"
+        "action": "blockActionCards",
+        "strategy": "direct"
     },
     {
         "id": 38,
         "name": "Unbeliebter Richter",
         "color": "green",
         "points": 2,
-        "action": "blockActionCards"
+        "action": "blockActionCards",
+        "strategy": "direct"
     },
     {
         "id": 39,

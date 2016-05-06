@@ -2,8 +2,6 @@ define([], function () {
     'use strict';
 
     function PlaygroundController($state, GameService, StorageService) {
-        var nobleCardIdMarie = 14;
-        var actionCardIdBlockQueue = 6;
         var nobleCardIdsChangingQueue = [1, 2, 4, 5, 7, 13];
 
         var vm = this;
@@ -36,10 +34,13 @@ define([], function () {
             }
 
             GameService.behead();
-            GameService.drawFromActionCardStack();
+            GameService.drawFromActionCardStack(1);
+            GameService.nextPlayer();
 
             if (GameService.isGameEnded()) {
                 $state.go('end');
+
+                return;
             }
         }
 
@@ -75,17 +76,24 @@ define([], function () {
                 return false;
             }
 
+            var criteria;
+
             switch(card.action) {
                 case 'moveMarieToStart': {
-                    var isMarie = function(nobleCard) {
-                        return nobleCard.id === nobleCardIdMarie;
+                    criteria = function(nobleCard) {
+                        return nobleCard.action === 'moveMarieToStart';
                     };
-
-                    return vm.game.queue.some(isMarie);
+                    break;
+                }
+                case 'moveFirstBlueToFrontOfQueue': {
+                    criteria = function(nobleCard) {
+                        return nobleCard.color === 'blue';
+                    };
+                    break;
                 }
             }
 
-            return true;
+            return criteria ? vm.game.queue.some(criteria) : true;
         }
 
         function areActionCardsBlockedByQueue() {
@@ -98,7 +106,7 @@ define([], function () {
 
         function isQueueBlocked() {
             var isBlockingActionCard = function(actionCard) {
-                return actionCard.id === actionCardIdBlockQueue;
+                return actionCard.action === 'blockQueue';
             };
 
             return GameService.getActiveActionCards().some(isBlockingActionCard);
