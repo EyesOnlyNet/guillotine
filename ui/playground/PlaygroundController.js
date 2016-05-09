@@ -1,18 +1,18 @@
 define([], function () {
     'use strict';
 
-    function PlaygroundController($state, GameService, StorageService) {
-        var nobleCardIdsChangingQueue = [1, 2, 4, 5, 7, 13];
-
+    function PlaygroundController($state, $q, GameService, StorageService) {
         var vm = this;
         var interactions = {
-            selectNobleFromQueue: prepareSelectNobleFromQueue
+            selectNobleFromQueue: prepareSelectNobleFromQueue,
+            selectOwnHandActionCard: prepareSelectOwnHandActionCard
         };
+        var resolveBehead;
 
         vm.game = GameService.get();
         vm.me = GameService.getPlayerById(StorageService.getMyPlayerId());
         vm.detailPlayer;
-        vm.actionCardInUse;
+        vm.interactionCardInUse;
         vm.message;
 
         vm.start = start;
@@ -20,7 +20,7 @@ define([], function () {
         vm.queueClicked = void 0;
         vm.showPlayerDetails = showPlayerDetails;
         vm.closePlayerDetails = closePlayerDetails;
-        vm.playActionCard = playActionCard;
+        vm.ownActionCardClicked = playActionCard;
         vm.isActionCardPlayable = isActionCardPlayable;
         vm.removeActiveActionCard = removeActiveActionCard;
 
@@ -29,18 +29,37 @@ define([], function () {
         }
 
         function behead() {
-            if (vm.actionCardInUse) {
+            if (vm.game.day === 0) {
                 return;
             }
 
-            GameService.behead();
-            GameService.drawFromActionCardStack(1);
-            GameService.nextPlayer();
-
-            if (GameService.isGameEnded()) {
-                $state.go('end');
-
+            if (vm.interactionCardInUse) {
                 return;
+            }
+
+            var promise = $q(function(resolve) {
+                resolveBehead = resolve;
+            });
+
+            promise.then(function() {
+                GameService.behead();
+                GameService.drawFromActionCardStack(1);
+                GameService.nextPlayer();
+
+                if (GameService.isGameEnded()) {
+                    $state.go('end');
+
+                    return;
+                }
+            }, function() {
+                console.warning('behead-promise failed');
+            });
+
+            if (angular.isDefined(vm.game.queue[0].interaction)) {
+                vm.interactionCardInUse = vm.game.queue[0];
+                interactions[vm.game.queue[0].interaction]();
+            } else {
+                resolveBehead();
             }
         }
 
@@ -72,7 +91,7 @@ define([], function () {
                 return false;
             }
 
-            if (isQueueChangingCard(card) && isQueueBlocked()) {
+            if (card.changeQueue && isQueueBlocked()) {
                 return false;
             }
 
@@ -100,10 +119,6 @@ define([], function () {
             return vm.game.queue[0].action === 'blockActionCards';
         }
 
-        function isQueueChangingCard(card) {
-            return nobleCardIdsChangingQueue.indexOf(card.id) !== -1;
-        }
-
         function isQueueBlocked() {
             var isBlockingActionCard = function(actionCard) {
                 return actionCard.action === 'blockQueue';
@@ -119,11 +134,18 @@ define([], function () {
             }
 
             if (angular.isDefined(card.interaction)) {
-                vm.actionCardInUse = card;
+                vm.interactionCardInUse = card;
                 interactions[card.interaction]();
             } else {
                 GameService.playActionCard(card);
             }
+        }
+
+        function resetInteraction() {
+            vm.interactionCardInUse = void 0;
+            vm.queueClicked = void 0;
+            vm.ownActionCardClicked = playActionCard;
+            vm.message = void 0;
         }
 
         function prepareSelectNobleFromQueue() {
@@ -132,10 +154,19 @@ define([], function () {
         }
 
         function selectNobleFromQueue(card) {
-            GameService.playActionCard(vm.actionCardInUse, card);
-            vm.actionCardInUse = void 0;
-            vm.queueClicked = void 0;
-            vm.message = void 0;
+            GameService.playActionCard(vm.interactionCardInUse, card);
+            resetInteraction();
+        }
+
+        function prepareSelectOwnHandActionCard() {
+            vm.ownActionCardClicked = selectOwnHandActionCard;
+            createMessage('info', vm.interactionCardInUse.interactionText);
+        }
+
+        function selectOwnHandActionCard(card) {
+            vm.game.queue[0].interactionResult = card;
+            resetInteraction();
+            resolveBehead();
         }
     }
 

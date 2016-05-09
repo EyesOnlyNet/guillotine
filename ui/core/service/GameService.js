@@ -12,6 +12,7 @@ define([], function () {
             moveMarieToStart: moveMarieToStart,
             moveFirstBlueToFrontOfQueue: moveFirstBlueToFrontOfQueue,
             moveFirstToEnd: moveFirstNobleToEnd,
+            moveSelfToEndOfQueue: moveSelfToEndOfQueue,
             reverseQueue: reverseQueue,
             removeNobleFromQueue: removeNobleFromQueue,
             endDay: endDay,
@@ -19,7 +20,8 @@ define([], function () {
             draw1FromNobleStack: draw1FromNobleStack,
             resetActionCards: resetActionCards,
             draw3ActionCardsAndEndTurn: draw3ActionCardsAndEndTurn,
-            draw1ActionCardForVioletNoble: draw1ActionCardForVioletNoble
+            draw1ActionCardForVioletNoble: draw1ActionCardForVioletNoble,
+            removeOwnHandActionCard: removeOwnHandActionCard
         };
 
         return {
@@ -109,12 +111,20 @@ define([], function () {
         }
 
         function nextPlayer() {
-            getActivePlayer().activeActionCards.forEach(function(card) {
-                if (card.strategy === 'onEndOfTurn') {
-                    callAction(card.action);
-                    game.playedActionCards.push(card);
+            var activePlayer = getActivePlayer();
+            var endOfTurnActionCards = activePlayer.activeActionCards.filter(function(card) {
+                return card.strategy === 'onEndOfTurn';
+            });
+
+            endOfTurnActionCards.forEach(function(card) {
+                callAction(card.action);
+                
+                if (!card.persistent) {
+                    removeActionCard(activePlayer, card);
                 }
             });
+
+            // todo switch to next player
         }
 
         function nextDay() {
@@ -207,9 +217,13 @@ define([], function () {
                 game.playedActionCards.push(card);
             }
 
-            computeAllPoints();
+            game.queue.forEach(function(card) {
+                if (card.strategy === 'afterPlayedActionCard') {
+                    callAction(card.action, card);
+                }
+            });
 
-            moveNoblesToEndOfQueue();
+            computeAllPoints();
         }
 
         function callAction(action, options) {
@@ -225,6 +239,7 @@ define([], function () {
             var index = player.activeActionCards.indexOf(card);
 
             player.activeActionCards.splice(index, 1);
+            game.playedActionCards.push(card);
         }
 
         function add1ToQueue() {
@@ -263,23 +278,23 @@ define([], function () {
         }
 
         function moveMarieToStart() {
-            game.queue.forEach(function (card, index) {
+            game.queue.some(function (card, index) {
                 if (card.name === 'Marie Antoinette') {
                     game.queue.splice(index, 1);
                     game.queue.unshift(card);
 
-                    return;
+                    return true;
                 }
             });
         }
 
         function moveFirstBlueToFrontOfQueue() {
-            game.queue.forEach(function (card, index) {
+            game.queue.some(function (card, index) {
                 if (card.color === 'blue') {
                     game.queue.splice(index, 1);
                     game.queue.unshift(card);
 
-                    return;
+                    return true;
                 }
             });
         }
@@ -290,15 +305,9 @@ define([], function () {
             game.queue = Array.concat(game.queue, card);
         }
 
-        function moveNoblesToEndOfQueue() {
-            game.queue.forEach(function (card, index) {
-                if (card.action === 'moveSelfToEndOfQueue') {
-                    game.queue.splice(index, 1);
-                    game.queue.push(card);
-
-                    return;
-                }
-            });
+        function moveSelfToEndOfQueue(card) {
+            game.queue.splice(game.queue.indexOf(card), 1);
+            game.queue.push(card);
         }
 
         function reverseQueue() {
@@ -347,6 +356,10 @@ define([], function () {
         function draw3ActionCardsAndEndTurn() {
             drawFromActionCardStack(3);
             nextPlayer();
+        }
+
+        function removeOwnHandActionCard(card) {
+            removeActionCard(getActivePlayer(), card.interactionResult);
         }
     }
 

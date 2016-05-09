@@ -60,9 +60,9 @@
 
 .guillotine {
     background-image: url("/images/guilotine.png");
-    background-position: left top;
+    background-position: left center;
     background-repeat: no-repeat;
-    height: 100px;
+    height: 170px;
     width: 100px;
 }
 
@@ -99,6 +99,11 @@
     overflow: hidden;
     vertical-align: middle;
     width: 120px;
+}
+
+.queue li .panel-footer {
+    cursor: help;
+    padding: 4px 10px
 }
 
 .card.blue {

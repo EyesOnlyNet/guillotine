@@ -1,20 +1,33 @@
 [
     {
-        "id": 1,
         "name": "Revolte",
         "description": "Mische die ersten 5 Karten der Warteschlange.",
+        "changeQueue": true,
         "action": "mixFirst5CardsOfQueue",
         "strategy": "direct"
     },
     {
-        "id": 2,
+        "name": "Revolte",
+        "description": "Mische die ersten 5 Karten der Warteschlange.",
+        "changeQueue": true,
+        "action": "mixFirst5CardsOfQueue",
+        "strategy": "direct"
+    },
+    {
         "name": "Doppelkopf",
         "description": "Köpfe den Ersten der Warteschlange.",
+        "changeQueue": true,
         "action": "behead1",
         "strategy": "direct"
     },
     {
-        "id": 3,
+        "name": "Doppelkopf",
+        "description": "Köpfe den Ersten der Warteschlange.",
+        "changeQueue": true,
+        "action": "behead1",
+        "strategy": "direct"
+    },
+    {
         "name": "Fortuna",
         "description": "Du bekommst 2 Extrapunkte.",
         "persistent": true,
@@ -23,22 +36,28 @@
         "strategy": "direct"
     },
     {
-        "id": 4,
         "name": "Nachschub",
         "description": "Lege 3 Adlige an das Ende der Warteschlange.",
+        "changeQueue": true,
         "action": "add3ToQueue",
         "strategy": "direct"
     },
     {
-        "id": 5,
+        "name": "Nachschub",
+        "description": "Lege 3 Adlige an das Ende der Warteschlange.",
+        "changeQueue": true,
+        "action": "add3ToQueue",
+        "strategy": "direct"
+    },
+    {
         "name": "Freigang",
         "description": "Entferne einen beliebigen Adligen aus der Warteschlange.",
         "interaction": "selectNobleFromQueue",
+        "changeQueue": true,
         "action": "removeNobleFromQueue",
         "strategy": "direct"
     },
     {
-        "id": 6,
         "name": "Furchtlos",
         "description": "Die Reihenfolge der Warteschlange darf solange nicht verändert werden, wie diese Karte ausgespielt ist.",
         "persistent": true,
@@ -47,14 +66,13 @@
         "strategy": "direct"
     },
     {
-        "id": 7,
         "name": "Die Mutige",
         "description": "Bewege Marie Antoinette an die Spitze der Warteschlange.",
+        "changeQueue": true,
         "action": "moveMarieToStart",
         "strategy": "direct"
     },
     {
-        "id": 8,
         "name": "Königshaus",
         "description": "Du erhältst für jeden roten Adligen einen Extrapunkt.",
         "persistent": true,
@@ -63,7 +81,6 @@
         "strategy": "direct"
     },
     {
-        "id": 9,
         "name": "Glaubensbekenntnis",
         "description": "Du erhältst für jeden blauen Adligen einen Extrapunkt.",
         "persistent": true,
@@ -72,7 +89,6 @@
         "strategy": "direct"
     },
     {
-        "id": 10,
         "name": "Volksherschaft",
         "description": "Du erhältst für jeden grünen Adligen einen Extrapunkt.",
         "persistent": true,
@@ -81,7 +97,6 @@
         "strategy": "direct"
     },
     {
-        "id": 11,
         "name": "Blaues Blut",
         "description": "Du erhältst für jeden violetten Adligen einen Extrapunkt.",
         "persistent": true,
@@ -90,7 +105,6 @@
         "strategy": "direct"
     },
     {
-        "id": 12,
         "name": "Glück im Unglück",
         "description": "Jeder schwarze Adlige zählt einen Punkt.",
         "persistent": true,
@@ -99,14 +113,13 @@
         "strategy": "direct"
     },
     {
-        "id": 13,
         "name": "Umgedreht",
         "description": "Stelle die Guillotine an das andere Ende der Warteschlange.",
+        "changeQueue": true,
         "action": "reverseQueue",
         "strategy": "direct"
     },
     {
-        "id": 14,
         "name": "Adelsanwärter",
         "description": "Für jeden violetten geköpften Adligen darfst du eine Aktionskarte ziehen.",
         "persistent": true,
@@ -114,7 +127,6 @@
         "strategy": "afterBehead"
     },
     {
-        "id": 15,
         "name": "Unglück",
         "description": "Du bekommst 2 Punkte abgezogen.",
         "persistent": true,
@@ -123,44 +135,47 @@
         "strategy": "direct"
     },
     {
-        "id": 16,
         "name": "Regenpause",
         "description": "Mische die Handkarten aller Spieler in den Aktionsstapel. Danach erhält jeder Spieler 5 neue Karten.",
         "action": "resetActionCards",
         "strategy": "direct"
     },
     {
-        "id": 17,
         "name": "Scharlachroter Rächer",
         "description": "Am Ende deines Zuges endet der Tag. Die Adligen in der Reihe kommen auf den Ablagestapel.",
         "action": "endDay",
         "strategy": "onEndOfTurn"
     },
     {
-        "id": 18,
         "name": "Politischer Einfluss",
         "description": "Ziehe 3 Aktionskarten, dafür darfst du keinen Adligen köpfen",
         "action": "draw3ActionCardsAndEndTurn",
         "strategy": "direct"
     },
     {
-        "id": 19,
+        "name": "Politischer Einfluss",
+        "description": "Ziehe 3 Aktionskarten, dafür darfst du keinen Adligen köpfen",
+        "action": "draw3ActionCardsAndEndTurn",
+        "strategy": "direct"
+    },
+    {
         "name": "Mangel an Glauben",
         "description": "Bewege den vordersten blauen Adligen in der Reihe an die Spitze.",
+        "changeQueue": true,
         "action": "moveFirstBlueToFrontOfQueue",
         "strategy": "direct"
     },
     {
-        "id": 20,
         "name": "Große Verwirrung",
         "description": "Mische alle Karten der Reihe in den Adelsstapel und lege die gleiche Anzahl wieder in eine Reihe.",
+        "changeQueue": true,
         "action": "remixQueue",
         "strategy": "direct"
     },
     {
-        "id": 21,
         "name": "Bestechung",
         "description": "Bewege den Adligen von der Spitze an das Ende der Reihe.",
+        "changeQueue": true,
         "action": "moveFirstToEnd",
         "strategy": "direct"
     }

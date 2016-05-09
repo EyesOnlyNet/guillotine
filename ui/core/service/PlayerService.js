@@ -2,8 +2,6 @@ define([], function () {
     'use strict';
 
     function PlayerService(UuidService) {
-        var countId = 7, countessId = 8, guardIds = [16, 17, 18, 19, 20], tragicNobleId = 27;
-
         var player = {};
         var actions = {
             add2Points: add2Points,
@@ -103,7 +101,7 @@ define([], function () {
 
         function addPointsForGuards() {
             player.nobleCards.forEach(function (card) {
-                if (guardIds.indexOf(card.id) !== -1) {
+                if (card.action === 'addPointsForGuards') {
                     player.points += 1;
                 }
             });
@@ -118,11 +116,11 @@ define([], function () {
         }
 
         function addPointsForCountAndCountess() {
-            var hasCountAndCountess = [countId, countessId].every(function(id) {
-                return player.nobleCards.some(function(card) {
-                    return card.id === id;
-                });
+            var filteredCards = player.nobleCards.filter(function(card) {
+                return card.action === 'addPointsForCountAndCountess';
             });
+
+            var hasCountAndCountess = filteredCards.length === 2;
 
             if (hasCountAndCountess) {
                 player.points += 2;

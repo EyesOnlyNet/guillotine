@@ -59,9 +59,14 @@
 
             <li ng-repeat="card in playVm.game.queue" ng-click="playVm.queueClicked(card)">
                 <div class="panel panel-default card" ng-class="card.color">
-                    <div class="panel-heading">{{card.name}} ({{card.id}})</div>
+                    <div class="panel-heading">{{card.name}}</div>
                     <div class="panel-body">
                         <h3>{{card.points}}</h3>
+                    </div>
+                    <div class="panel-footer" title="{{ card.actionText }}">
+                        <i class="glyphicon glyphicon-exclamation-sign"
+                           ng-if="card.action"></i>
+                        &nbsp;
                     </div>
                 </div>
             </li>
@@ -84,9 +89,11 @@
             <div class="list-group">
                 <a href="#" class="list-group-item"
                    ng-repeat="card in playVm.detailPlayer.actionCards"
-                   ng-click="playVm.playActionCard(card)"
+                   ng-click="playVm.ownActionCardClicked(card)"
                    ng-class="{ 'disabled': !playVm.isActionCardPlayable(card) }">
-                    <h3 class="list-group-item-heading">{{card.name}} ({{card.id}})</h3>
+                    <i class="glyphicon glyphicon-trash"
+                       ng-if="playVm.interactionCardInUse.action === 'removeOwnHandActionCard'"></i>
+                    <h3 class="list-group-item-heading">{{card.name}}</h3>
                     <p>{{card.description}}</p>
                 </a>
             </div>
@@ -101,7 +108,7 @@
                     <i class="glyphicon glyphicon-trash"
                        ng-click="playVm.removeActiveActionCard(card)"
                        ng-if="card.removable"></i>
-                    <h3 class="list-group-item-heading">{{card.name}} ({{card.id}})</h3>
+                    <h3 class="list-group-item-heading">{{card.name}}</h3>
                     <p>{{card.description}}</p>
                 </div>
             </div>
@@ -112,7 +119,7 @@
 
             <div class="list-group">
                 <div class="list-group-item card" ng-class="card.color" ng-repeat="card in playVm.detailPlayer.nobleCards">
-                    <h3 class="list-group-item-heading">{{card.name}} ({{card.id}})</h3>
+                    <h3 class="list-group-item-heading">{{card.name}}</h3>
                     <p>Punkte: {{card.points}}</p>
                 </div>
             </div>

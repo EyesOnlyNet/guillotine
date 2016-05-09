@@ -1,338 +1,312 @@
 [
     {
-        "id": 1,
         "name": "Pisspage",
         "color": "violet",
         "points": 1
     },
     {
-        "id": 2,
         "name": "Coiffeur",
         "color": "violet",
         "points": 1
     },
     {
-        "id": 3,
         "name": "Königlicher Kartograf",
         "color": "violet",
         "points": 1
     },
     {
-        "id": 4,
         "name": "Hofdame",
         "color": "violet",
         "points": 1,
         "action": "draw1ActionCard",
+        "actionText": "Nachdem du diese Adlige geköpft hast, erhältst du eine zusätzliche Aktionskarte vom Zugstapel.",
         "strategy": "afterBehead"
     },
     {
-        "id": 5,
         "name": "Lord",
         "color": "violet",
         "points": 2,
         "action": "draw1ActionCard",
+        "actionText": "Nachdem du diesen Adligen geköpft hast, erhältst du eine zusätzliche Aktionskarte vom Zugstapel.",
         "strategy": "afterBehead"
     },
     {
-        "id": 6,
         "name": "Lady",
         "color": "violet",
         "points": 2,
         "action": "draw1ActionCard",
+        "actionText": "Nachdem du diese Adlige geköpft hast, erhältst du eine zusätzliche Aktionskarte vom Zugstapel.",
         "strategy": "afterBehead"
     },
     {
-        "id": 7,
         "name": "Graf",
         "color": "violet",
         "points": 2,
         "action": "addPointsForCountAndCountess",
+        "actionText": "Der Graf ist 4 Punkte wert, wenn du auch die Gräfin in deinem Stapel hast.",
         "strategy": "direct"
     },
     {
-        "id": 8,
         "name": "Gräfin",
         "color": "violet",
         "points": 2,
         "action": "addPointsForCountAndCountess",
+        "actionText": "Die Gräfin ist 4 Punkte wert, wenn du auch den Graf in deinem Stapel hast.",
         "strategy": "direct"
     },
     {
-        "id": 9,
         "name": "Flotter Fürst",
         "color": "violet",
         "points": 2,
         "action": "behead1",
+        "actionText": "Nachdem du diesen Adligen geköpft hast, köpfst du an der Spitze einen weiteren Adligen.",
         "strategy": "afterBehead"
     },
     {
-        "id": 10,
         "name": "Herzog",
         "color": "violet",
         "points": 3
     },
     {
-        "id": 11,
         "name": "Baron",
         "color": "violet",
         "points": 3
     },
     {
-        "id": 12,
         "name": "Robespierre",
         "color": "violet",
         "points": 3,
         "action": "endDay",
+        "actionText": "Nachdem du diesen Adligen geköpft hast, endet der Tag. Alle Karten in der Reihe werden auf den Ablagestapel gelegt.",
         "strategy": "afterBehead"
     },
     {
-        "id": 13,
         "name": "Regent",
         "color": "violet",
         "points": 4
     },
     {
-        "id": 14,
         "name": "Marie Antoinette",
         "color": "violet",
         "points": 5
     },
     {
-        "id": 15,
         "name": "König Ludwig XVI.",
         "color": "violet",
         "points": 5
     },
     {
-        "id": 16,
         "name": "Palastwache 1",
         "color": "red",
         "points": 0,
         "action": "addPointsForGuards",
+        "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
     },
     {
-        "id": 17,
         "name": "Palastwache 2",
         "color": "red",
         "points": 0,
         "action": "addPointsForGuards",
+        "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
     },
     {
-        "id": 18,
         "name": "Palastwache 3",
         "color": "red",
         "points": 0,
         "action": "addPointsForGuards",
+        "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
     },
     {
-        "id": 19,
         "name": "Palastwache 4",
         "color": "red",
         "points": 0,
         "action": "addPointsForGuards",
+        "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
     },
     {
-        "id": 20,
         "name": "Palastwache 5",
         "color": "red",
         "points": 0,
         "action": "addPointsForGuards",
+        "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
     },
     {
-        "id": 21,
         "name": "Leutnant",
         "color": "red",
         "points": 2
     },
     {
-        "id": 22,
         "name": "Leutnant",
         "color": "red",
         "points": 2
     },
     {
-        "id": 23,
         "name": "Hauptmann der Wache",
         "color": "red",
         "points": 2,
         "action": "add1ToQueue",
+        "actionText": "Nachdem du diesen Adligen geköpft hast, lege einen Adligen vom Adelsstapel ans Ende der Reihe.",
         "strategy": "afterBehead"
     },
     {
-        "id": 24,
         "name": "Oberst",
         "color": "red",
         "points": 3
     },
     {
-        "id": 25,
         "name": "General",
         "color": "red",
         "points": 4,
         "action": "add1ToQueue",
+        "actionText": "Nachdem du diesen Adligen geköpft hast, lege einen Adligen vom Adelsstapel ans Ende der Reihe.",
         "strategy": "afterBehead"
     },
     {
-        "id": 26,
         "name": "Meisterspion",
         "color": "red",
         "points": 4,
         "action": "moveSelfToEndOfQueue",
-        "strategy": "afterPlayedActionCart"
+        "actionText": "Immer wenn eine Aktionskarte gespielt wurde, wird dieser Adlige ans Ende der Reihe bewegt.",
+        "strategy": "afterPlayedActionCard"
     },
     {
-        "id": 27,
         "name": "Tragische Figur",
         "color": "black",
         "points": 0,
         "action": "addPointsForTragicNoble",
+        "actionText": "Dieser Adlige ist einen Minuspunkt wert für jeden schwarzen Adligen in deinem Stapel.",
         "strategy": "direct"
     },
     {
-        "id": 28,
         "name": "Unschuldiges Opfer",
         "color": "black",
-        "points": -1
+        "points": -1,
+        "interaction": "selectOwnHandActionCard",
+        "interactionText": "Wähle eine Aktionskarte aus deiner Hand, die du entfernen möchtest.",
+        "action": "removeOwnHandActionCard",
+        "actionText": "Nachdem du diesen Adligen geköpft hast, musst du eine deiner Aktionskarten ablegen.",
+        "strategy": "afterBehead"
     },
     {
-        "id": 29,
         "name": "Märtyrerin",
         "color": "black",
         "points": -1
     },
     {
-        "id": 30,
         "name": "Märtyrerin",
         "color": "black",
         "points": -1
     },
     {
-        "id": 31,
         "name": "Märtyrerin",
         "color": "black",
         "points": -1
     },
     {
-        "id": 32,
         "name": "Der Clown",
         "color": "black",
         "points": -2
     },
     {
-        "id": 33,
         "name": "Volksheld",
         "color": "black",
         "points": -3
     },
     {
-        "id": 34,
         "name": "Henkersknecht",
         "color": "green",
         "points": 1,
         "action": "draw1FromNobleStack",
+        "actionText": "Nachdem du diesen Adligen geköpft hast, erhältst du zusätzlich die oberste Karte vom Adelsstapel.",
         "strategy": "afterBehead"
     },
     {
-        "id": 35,
         "name": "Gendarm",
         "color": "green",
         "points": 1
     },
     {
-        "id": 36,
         "name": "Gendarm",
         "color": "green",
         "points": 1
     },
     {
-        "id": 37,
         "name": "Unbeliebter Richter",
         "color": "green",
         "points": 2,
         "action": "blockActionCards",
+        "actionText": "Kein Spieler darf eine Aktionskarte spielen, solange dieser Adlige an der Spitze der Reihe ist.",
         "strategy": "direct"
     },
     {
-        "id": 38,
         "name": "Unbeliebter Richter",
         "color": "green",
         "points": 2,
         "action": "blockActionCards",
+        "actionText": "Kein Spieler darf eine Aktionskarte spielen, solange dieser Adlige an der Spitze der Reihe ist.",
         "strategy": "direct"
     },
     {
-        "id": 39,
         "name": "Grundbesitzer",
         "color": "green",
         "points": 2
     },
     {
-        "id": 40,
         "name": "Steuereintreiber",
         "color": "green",
         "points": 2
     },
     {
-        "id": 41,
         "name": "Ratsmitglied",
         "color": "green",
         "points": 3
     },
     {
-        "id": 42,
         "name": "Bürgermeister",
         "color": "green",
         "points": 3
     },
     {
-        "id": 43,
         "name": "Gouverneur",
         "color": "green",
         "points": 4
     },
     {
-        "id": 44,
         "name": "Reicher Priester",
         "color": "blue",
         "points": 1
     },
     {
-        "id": 45,
         "name": "Reicher Priester",
         "color": "blue",
         "points": 1
     },
     {
-        "id": 46,
         "name": "Ketzer",
         "color": "blue",
         "points": 2
     },
     {
-        "id": 47,
         "name": "Bischof",
         "color": "blue",
         "points": 2
     },
     {
-        "id": 48,
         "name": "Böse Nonne",
         "color": "blue",
         "points": 3
     },
     {
-        "id": 49,
         "name": "Erzbischof",
         "color": "blue",
         "points": 4
     },
     {
-        "id": 50,
         "name": "Kardinal",
         "color": "blue",
         "points": 5
