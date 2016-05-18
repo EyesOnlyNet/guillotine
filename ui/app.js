@@ -23,7 +23,7 @@ define(function (require) {
     });
     app.constant('GAME_CONFIG', {
         actionCardsPerPlayer: 5,
-        queueLength: 12,
+        queueLength: 6,
         days: 2,
         actionCards: require('json!core/data/actionCards.json'),
         nobleCards: require('json!core/data/nobleCards.json')
@@ -32,6 +32,7 @@ define(function (require) {
     app.controller('RegisterController', require('register/RegisterController'));
     app.controller('LoginController', require('login/LoginController'));
     app.controller('PlaygroundController', require('playground/PlaygroundController'));
+    app.controller('ResultController', require('result/ResultController'));
 
     app.config(function ($locationProvider, $urlRouterProvider, $stateProvider) {
         $locationProvider.html5Mode({

@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="/styles/result.css">
+
+<h1 class="well">
+    Guillotine
+    <small>Ergebnisse</small>
+</h1>
+
+<section class="row">
+    <div class="col-xs-12 text-center">
+        <table class="table">
+            <tr>
+                <th>Spieler</th>
+                <th>Punkte</th>
+                <th>Adelskarten</th>
+                <th>Aktionskarten</th>
+            </tr>
+
+            <tr class="player" ng-repeat="player in resVm.playerList">
+                <td class="name">{{player.name}}</td>
+                <td class="points">{{player.points}}</td>
+                <td>
+                    <ul class="noble-cards well well-sm list-group">
+                        <li class="noble-card list-group-item"
+                            ng-repeat="card in player.nobleCards"
+                            ng-class="card.color">
+                            <span class="name">{{card.name}}</span>
+                            <span class="points">{{card.computedPoints || card.points || 0}}</span>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul class="action-cards well well-sm list-group">
+                        <li class="action-card card list-group-item"
+                            ng-repeat="card in player.activeActionCards">
+                            <div class="name">{{card.name}}</div>
+                            <span class="description">{{card.description}}</span>
+                            <span class="points">{{card.computedPoints || card.points || 0}}</span>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<pre>
+    {{resVm.game | json}}
+</pre>

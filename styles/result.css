@@ -1,0 +1,86 @@
+header {
+    height: 80px;
+    margin: 10px;
+}
+
+header > * {
+    height: 100%;
+}
+
+header h1 {
+    margin: 10px 0;
+}
+
+.noble-card.blue {
+    border-color: skyblue;
+}
+
+.noble-card.blue.list-group-item,
+.noble-card.blue .panel-heading {
+    background-color: lightskyblue;
+}
+
+.noble-card.violet {
+    border-color: violet;
+}
+
+.noble-card.violet.list-group-item,
+.noble-card.violet .panel-heading {
+    background-color: lightpink;
+}
+
+.noble-card.green {
+    border-color: lightgreen;
+}
+
+.noble-card.green.list-group-item,
+.noble-card.green .panel-heading {
+    background-color: greenyellow;
+}
+
+.noble-card.red {
+    border-color: lightcoral;
+}
+
+.noble-card.red.list-group-item,
+.noble-card.red .panel-heading {
+    background-color: lightsalmon;
+}
+
+.noble-card.black {
+    border-color: black;
+}
+
+.noble-card.black.list-group-item,
+.noble-card.black.list-group-item h3,
+.noble-card.black .panel-heading {
+    background-color: black;
+    color: white;
+}
+
+.action-card.list-group-item,
+.noble-card.list-group-item {
+    padding-right: 45px;
+}
+
+.action-card .points,
+.noble-card .points {
+    background-color: white;
+    color: #000;
+    height: 100%;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    width: 30px;
+}
+
+.action-card .name {
+    font-weight: bold;
+}
+
+.action-card .points {
+    border-left: 1px solid lightgray;
+    padding-top: 20px;
+}

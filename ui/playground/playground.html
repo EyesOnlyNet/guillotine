@@ -61,7 +61,7 @@
                 <div class="panel panel-default card" ng-class="card.color">
                     <div class="panel-heading">{{card.name}}</div>
                     <div class="panel-body">
-                        <h3>{{card.points}}</h3>
+                        <h3>{{card.computedPoints || card.points}}</h3>
                     </div>
                     <div class="panel-footer" title="{{ card.actionText }}">
                         <i class="glyphicon glyphicon-exclamation-sign"
@@ -95,6 +95,7 @@
                        ng-if="playVm.interactionCardInUse.action === 'removeOwnHandActionCard'"></i>
                     <h3 class="list-group-item-heading">{{card.name}}</h3>
                     <p>{{card.description}}</p>
+                    <p ng-if="card.computedPoints || card.points">Punkte: {{card.computedPoints || card.points}}</p>
                 </a>
             </div>
         </div>
@@ -110,6 +111,7 @@
                        ng-if="card.removable"></i>
                     <h3 class="list-group-item-heading">{{card.name}}</h3>
                     <p>{{card.description}}</p>
+                    <p ng-if="card.computedPoints || card.points">Punkte: {{card.computedPoints || card.points}}</p>
                 </div>
             </div>
         </div>
@@ -120,7 +122,7 @@
             <div class="list-group">
                 <div class="list-group-item card" ng-class="card.color" ng-repeat="card in playVm.detailPlayer.nobleCards">
                     <h3 class="list-group-item-heading">{{card.name}}</h3>
-                    <p>Punkte: {{card.points}}</p>
+                    <p>Punkte: {{card.computedPoints || card.points}}</p>
                 </div>
             </div>
         </div>

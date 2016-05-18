@@ -61,7 +61,7 @@ define([], function () {
         }
 
         function get() {
-            return game || load() || create();
+            return game || load();
         }
 
         function load() {
@@ -75,7 +75,7 @@ define([], function () {
         }
 
         function getPlayerById(id) {
-            return game.playerList.filter(function (player) {
+            return get().playerList.filter(function (player) {
                 return player.id === id;
             }).pop();
         }
@@ -118,13 +118,15 @@ define([], function () {
 
             endOfTurnActionCards.forEach(function(card) {
                 callAction(card.action);
-                
+
                 if (!card.persistent) {
                     removeActionCard(activePlayer, card);
                 }
             });
 
             // todo switch to next player
+
+            StorageService.setGame(game);
         }
 
         function nextDay() {

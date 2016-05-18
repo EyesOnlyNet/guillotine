@@ -33,6 +33,7 @@
         "persistent": true,
         "playableAfterLastDay": true,
         "action": "add2Points",
+        "points": 2,
         "strategy": "direct"
     },
     {
@@ -132,6 +133,7 @@
         "persistent": true,
         "playableAfterLastDay": true,
         "action": "sub2Points",
+        "points": -2,
         "strategy": "direct"
     },
     {

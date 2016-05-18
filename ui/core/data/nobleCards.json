@@ -98,7 +98,7 @@
     {
         "name": "Palastwache 1",
         "color": "red",
-        "points": 0,
+        "points": 1,
         "action": "addPointsForGuards",
         "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
@@ -106,7 +106,7 @@
     {
         "name": "Palastwache 2",
         "color": "red",
-        "points": 0,
+        "points": 1,
         "action": "addPointsForGuards",
         "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
@@ -114,7 +114,7 @@
     {
         "name": "Palastwache 3",
         "color": "red",
-        "points": 0,
+        "points": 1,
         "action": "addPointsForGuards",
         "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
@@ -122,7 +122,7 @@
     {
         "name": "Palastwache 4",
         "color": "red",
-        "points": 0,
+        "points": 1,
         "action": "addPointsForGuards",
         "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
@@ -130,7 +130,7 @@
     {
         "name": "Palastwache 5",
         "color": "red",
-        "points": 0,
+        "points": 1,
         "action": "addPointsForGuards",
         "actionText": "Der Wert der Palastwache entspricht der Anzahl der Palastwachen in deinem Stapel.",
         "strategy": "direct"
@@ -177,8 +177,8 @@
     {
         "name": "Tragische Figur",
         "color": "black",
-        "points": 0,
-        "action": "addPointsForTragicNoble",
+        "points": -1,
+        "action": "addMinus1PointPerBlackNoble",
         "actionText": "Dieser Adlige ist einen Minuspunkt wert für jeden schwarzen Adligen in deinem Stapel.",
         "strategy": "direct"
     },
