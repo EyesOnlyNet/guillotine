@@ -54,23 +54,34 @@
     </div>
 
     <div class="row queue">
-        <ul class="col-xs-12 list-inline" ng-if="playVm.game.queue">
-            <li class="guillotine" ng-click="playVm.behead()"></li>
+        <div class="col-xs-12">
+            <div class="guillotine" ng-click="playVm.behead()"></div>
 
-            <li ng-repeat="card in playVm.game.queue" ng-click="playVm.queueClicked(card)">
-                <div class="panel panel-default card" ng-class="card.color">
-                    <div class="panel-heading">{{card.name}}</div>
-                    <div class="panel-body">
-                        <h3>{{card.computedPoints || card.points}}</h3>
+            <ul dnd-list="playVm.game.queue"
+                dnd-horizontal-list="true"
+                class="list-inline"
+                ng-if="playVm.game.queue">
+                <li ng-repeat="card in playVm.game.queue" ng-click="playVm.queueClicked(card)">
+                    <div class="panel panel-default card"
+                         ng-class="card.color"
+                         ng-class="{'selected': models.selected === card}"
+                         dnd-draggable="card"
+                         dnd-effect-allowed="move"
+                         dnd-moved="playVm.game.queue.splice($index, 1)"
+                         dnd-selected="models.selected = card">
+                        <div class="panel-heading">{{card.name}}</div>
+                        <div class="panel-body">
+                            <h3>{{card.computedPoints || card.points}}</h3>
+                        </div>
+                        <div class="panel-footer" title="{{ card.actionText }}">
+                            <i class="glyphicon glyphicon-exclamation-sign"
+                               ng-if="card.action"></i>
+                            &nbsp;
+                        </div>
                     </div>
-                    <div class="panel-footer" title="{{ card.actionText }}">
-                        <i class="glyphicon glyphicon-exclamation-sign"
-                           ng-if="card.action"></i>
-                        &nbsp;
-                    </div>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div class="row detail" ng-if="playVm.detailPlayer">

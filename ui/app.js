@@ -3,11 +3,13 @@ define(function (require) {
 
     require('angularUiRouter');
     require('MongoLabResourceFactory');
+    require('angularDragAndDropLists');
 
     var angular = require('angular');
     var app = angular.module('guillotine', [
         'ui.router',
-        'mongoLabResource'
+        'mongoLabResource',
+        'dndLists'
     ]);
 
     app.factory('GameResource', require('core/resource/GameResource'));

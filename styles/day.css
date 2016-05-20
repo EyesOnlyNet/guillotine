@@ -62,8 +62,9 @@
     background-image: url("/images/guilotine.png");
     background-position: left center;
     background-repeat: no-repeat;
+    float: left;
     height: 170px;
-    width: 100px;
+    width: 70px;
 }
 
 .queue {
@@ -179,4 +180,21 @@
     position: absolute;
     right: 6px;
     top: 8px;
+}
+
+ul[dnd-list],
+ul[dnd-list] > li {
+    position: relative;
+}
+
+ul[dnd-list] .dndDraggingSource {
+    display: none;
+}
+
+ul[dnd-list] .dndPlaceholder {
+    box-shadow: 0px 0px 4px;
+    background-color: #eee;
+    display: inline-block;
+    height: 180px;
+    width: 120px;
 }
